@@ -1,0 +1,172 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://scill-cdn.web.app/scill.js"></script>
+    <script type="text/javascript">
+        const environment = 'development';
+        let eventsApi = SCILL.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
+        let accessToken = null;
+        var intervals = [];
+        const appId = "597737952688570369";
+        let challengesApi = null;
+        const userId = '1234';
+
+        let webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
+        webSocket.onmessage = function (event) {
+            console.log('Received Webhook', event.data);
+            updateChallenges();
+        }
+
+        webSocket.onclose = function(event) {
+            console.log("Websocket closed, reconnecting");
+            webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
+        }
+
+        function sendEvent() {
+            eventsApi.sendEvent({
+                event_name: "kill-enemy",
+                event_type: "single",
+                user_id: "1234",
+                session_id: "1234",
+                meta_data: {
+                    amount: 1,
+                    enemy_type: "Cloud",
+                    kill_type: "Headshot",
+                    map_name: "Level 1",
+                    player_character: "Human",
+                    weapon_used: "Knife",
+                    realm: "Europe"
+                }
+            }).then(result => {
+                console.log("Sending event: ", result);
+            }).catch(error => {
+                console.warn("Failed to send event", error);
+            });
+        }
+
+        function updateChallenges() {
+            challengesApi.getPersonalChallenges(appId).then(categories => {
+                console.log("Loaded challenges", categories);
+
+                // Remove all items (if this function is called multiple times)
+                document.getElementById('challenges').innerHTML = '';
+
+                // Clear all intervals
+                intervals.forEach(interval => {
+                    window.clearInterval(interval);
+                });
+                intervals = [];
+
+                categories.forEach(category => {
+                    var categoryNode = document.createElement('li');
+                    categoryNode.innerHTML = category.category_name;
+                    document.getElementById('challenges').appendChild(categoryNode);
+
+                    var challengesNode = document.createElement('ul');
+                    categoryNode.appendChild(challengesNode);
+                    category.challenges.forEach(challenge => {
+                        console.log(challenge);
+                        var challengeNode = document.createElement('li');
+                        if (challenge.type === 'unlock') {
+                            challengeNode.innerHTML = `${challenge.challenge_name} <button onclick="unlockChallenge('${challenge.challenge_id}')">Unlock</button>`;
+                        } else if (challenge.type === 'unlocked') {
+                            // Please note: We need to send user_challenge_id which is 0 if challenge is unlocked - so it's important to reload the
+                            // list as shown below to get an update on this value once the challenge is unlocked
+                            challengeNode.innerHTML = `${challenge.challenge_name} <button onclick="activateChallenge('${challenge.challenge_id}')">Activate</button>`;
+                        } else if (challenge.type === 'unclaimed') {
+                            challengeNode.innerHTML = `${challenge.challenge_name} <button onclick="claimChallenge('${challenge.challenge_id}')">Claim</button>`;
+                        } else if (challenge.type === 'overtime') {
+                            challengeNode.innerHTML = `${challenge.challenge_name} <button onclick="claimChallenge('${challenge.challenge_id}')">Retry</button>`;
+                        } else if (challenge.type === 'in-progress') {
+                            challengeNode.innerHTML = `${challenge.challenge_name}<br>${challenge.user_challenge_current_score}/${challenge.challenge_goal} (Time remaining: ${SCILL.timeLeft(challenge)}) <button onclick="cancelChallenge('${challenge.challenge_id}')">Cancel</button>`;
+
+                            // Store interval to clean it up if this DOM node gets removed
+                            let interval = window.setInterval(() => {
+                                let timeRemaining = SCILL.timeLeft(challenge);
+                                challengeNode.innerHTML = `${challenge.challenge_name}<br>${challenge.user_challenge_current_score}/${challenge.challenge_goal} (Time remaining: ${timeRemaining}) <button onclick="cancelChallenge('${challenge.challenge_id}')">Cancel</button>`;
+                            }, 1000);
+                            intervals.push(interval);
+                        }
+
+                        challengesNode.appendChild(challengeNode);
+                    })
+                });
+            });
+        }
+
+        // Load custom backend provided in index.js NodeJS server
+        function generateAccessToken() {
+            window.fetch(`/scill/generate-access-token?environment=${environment}`)
+                .then(response => response.json())
+                .then(response => {
+                    if (response && response.token) {
+                        return response.token;
+                    } else {
+                        return null;
+                    }
+                }).then(token => {
+                    console.log("Received access token", token);
+                    accessToken = token;
+
+                    // Setup the challenges API with the access token and load the first batch of challenges
+                    challengesApi = SCILL.getChallengesApi(accessToken, environment);
+                    updateChallenges();
+                });
+        }
+
+        function unlockChallenge(challengeId) {
+            challengesApi.unlockPersonalChallenge(appId, challengeId).then(result => {
+                if (result) {
+                    alert("Challenge Unlocked");
+                    updateChallenges();
+                } else {
+                    alert("Unlocking failed");
+                }
+            })
+        }
+
+        function activateChallenge(challengeId) {
+            challengesApi.activatePersonalChallenge(appId, challengeId).then(result => {
+                if (result) {
+                    alert("Challenge activated");
+                    updateChallenges();
+                } else {
+                    alert("Activating failed");
+                }
+            })
+        }
+
+        function cancelChallenge(challengeId) {
+            challengesApi.cancelPersonalChallenge(appId, challengeId).then(result => {
+                if (result) {
+                    alert("Challenge canceled");
+                    updateChallenges();
+                } else {
+                    alert("Cancellation failed");
+                }
+            })
+        }
+
+        function claimChallenge(challengeId) {
+            challengesApi.claimPersonalChallengeReward(appId, challengeId).then(result => {
+                if (result) {
+                    alert("Challenge claimed");
+                    updateChallenges();
+                } else {
+                    alert("Claiming failed");
+                }
+            })
+        }
+
+        // Generate an access token and load first set of challenges
+        generateAccessToken();
+    </script>
+</head>
+<body>
+<h1>Simple SCILL application</h1>
+<h3>Send events</h3>
+<button onclick="sendEvent()">kill-enemy</button>
+<p>Please note: Sending events should be done in the backend if possible.</p>
+<h3>Your challenges</h3>
+<ul id="challenges"></ul>
+</body>
+</html>

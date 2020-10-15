@@ -1,0 +1,49 @@
+{
+  "name": "@scillgame/scill-js",
+  "version": "0.3.1",
+  "description": "SCILL Gamification as a Service SDK for NodeJS and JavaScript (browsers).",
+  "author": "4Players Development Team",
+  "keywords": [
+    "fetch",
+    "typescript",
+    "swagger-client",
+    "@scillgame/scill-typescript"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "test": "jest",
+    "prepublishOnly": "npm run build",
+    "build-client": "browserify dist/scillclient.js -o public/scill.js --standalone SCILL"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "dependencies": {
+    "portable-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.0",
+    "browserify": "^16.5.2",
+    "jest": "^25.4.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}

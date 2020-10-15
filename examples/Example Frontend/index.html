@@ -1,0 +1,21 @@
+<html>
+<head>
+    <script type="text/javascript" src="../../dist/scill.js"></script>
+    <script type="text/javascript">
+        let eventsApi = SCILL.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX");
+        eventsApi.sendEvent({
+            eventName: "instant-death",
+            eventType: "single",
+            userId: "123456",
+            sessionId: "1234",
+            metaData: {
+                amount: 1
+            }
+        }).then(result => {
+            console.log("Sending event: ", result);
+        }).catch(error => {
+            console.warn("Failed to send event", error);
+        });
+    </script>
+</head>
+</html>
