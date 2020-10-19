@@ -39,6 +39,66 @@ app.get('/scill/generate-access-token', (req, res) => {
     });
 });
 
+app.get('/scill/send-event/user-invite', (req, res) => {
+    // In this example we use a session sent to this endpoint from the client to extract a user id from the session
+    // How you implement that is up to you and depends on your user system
+    const session = req.query.sessionid;
+    const environment = req.query.environment;
+    const userId = '1234';
+
+    let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
+    eventsApi.sendEvent({
+        event_name: "user-invite",
+        event_type: "single",
+        user_id: "1234",
+        session_id: "1234",
+        meta_data: {
+            amount: 1
+        }
+    }).then(result => {
+        console.log("Sending event: ", result);
+        return res.set(result);
+    }).catch(error => {
+        console.warn("Failed to send event", error);
+        return res.send({
+            error: error.error
+        });
+    });
+});
+
+app.get('/scill/send-event/kill-enemy', (req, res) => {
+    // In this example we use a session sent to this endpoint from the client to extract a user id from the session
+    // How you implement that is up to you and depends on your user system
+    const session = req.query.sessionid;
+    const environment = req.query.environment;
+    const userId = '1234';
+
+    let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
+    eventsApi.sendEvent({
+        event_name: "kill-enemy",
+        event_type: "single",
+        user_id: userId,
+        session_id: "1234",
+        meta_data: {
+            amount: 1,
+            enemy_type: "Cloud",
+            kill_type: "Headshot",
+            map_name: "Level 1",
+            player_character: "Human",
+            weapon_used: "Knife",
+            realm: "Europe"
+        }
+    }).then(result => {
+        console.log("Sending event: ", result);
+        return res.set(result);
+    }).catch(error => {
+        console.warn("Failed to send event", error);
+        return res.send({
+            error: error.error
+        });
+    });
+});
+
 app.get('/',function(req,res) {
     res.sendFile(path.join(__dirname+'/index.html'));
 });

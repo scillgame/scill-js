@@ -1,9 +1,8 @@
 <html>
 <head>
     <script type="text/javascript" src="https://scill-cdn.web.app/scill.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
     <script type="text/javascript">
-        const environment = 'development';
-        let eventsApi = SCILL.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
         let accessToken = null;
         var intervals = [];
         const appId = "597737952688570369";
@@ -22,25 +21,19 @@
         }
 
         function sendEvent() {
-            eventsApi.sendEvent({
-                event_name: "kill-enemy",
-                event_type: "single",
-                user_id: "1234",
-                session_id: "1234",
-                meta_data: {
-                    amount: 1,
-                    enemy_type: "Cloud",
-                    kill_type: "Headshot",
-                    map_name: "Level 1",
-                    player_character: "Human",
-                    weapon_used: "Knife",
-                    realm: "Europe"
-                }
-            }).then(result => {
-                console.log("Sending event: ", result);
-            }).catch(error => {
-                console.warn("Failed to send event", error);
-            });
+            window.fetch(`/scill/send-event/kill-enemy?environment=${environment}`)
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Sending event: ", response);
+                });
+        }
+
+        function sendUserInviteEvent() {
+            window.fetch(`/scill/send-event/user-invite?environment=${environment}`)
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Sending event: ", response);
+                });
         }
 
         function updateChallenges() {
@@ -104,13 +97,13 @@
                         return null;
                     }
                 }).then(token => {
-                    console.log("Received access token", token);
-                    accessToken = token;
+                console.log("Received access token", token);
+                accessToken = token;
 
-                    // Setup the challenges API with the access token and load the first batch of challenges
-                    challengesApi = SCILL.getChallengesApi(accessToken, environment);
-                    updateChallenges();
-                });
+                // Setup the challenges API with the access token and load the first batch of challenges
+                challengesApi = SCILL.getChallengesApi(accessToken, environment);
+                updateChallenges();
+            });
         }
 
         function unlockChallenge(challengeId) {
@@ -164,9 +157,11 @@
 <body>
 <h1>Simple SCILL application</h1>
 <h3>Send events</h3>
-<button onclick="sendEvent()">kill-enemy</button>
+<button onclick="sendEvent()">kill-enemy</button> <button onclick="sendUserInviteEvent()">user-invite</button>
 <p>Please note: Sending events should be done in the backend if possible.</p>
 <h3>Your challenges</h3>
-<ul id="challenges"></ul>
+<ul id="challenges" class="challenges"></ul>
+<p>This is a bare bones application to show off how easy it is to implement SCILL challenges into existing or new web
+    applications. More info can be found in our extensive developer documentation: <a href="https://developers.scillgame.com">SCILL Developer Documentation</a></p>
 </body>
 </html>
