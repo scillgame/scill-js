@@ -10,6 +10,8 @@ const clients = {};
 const app = express();
 const port = 80;
 
+const apiKey = "ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX";
+
 const expressWs = require('express-ws')(app);
 
 app.use(bodyParser.json());
@@ -25,7 +27,7 @@ app.get('/scill/generate-access-token', (req, res) => {
     const userId = '1234';
 
     // Generate an instance of the SCILL Admin SDK with example API-Key
-    const auth = scill.getAuthApi('ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX', environment);
+    const auth = scill.getAuthApi(apiKey, environment);
 
     // Call SCILL backend to generate an access token encoding user and API-Key
     return auth.generateAccessToken({
@@ -46,7 +48,7 @@ app.get('/scill/send-event/user-invite', (req, res) => {
     const environment = req.query.environment;
     const userId = '1234';
 
-    let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
+    let eventsApi = scill.getEventsApi(apiKey, environment);
     eventsApi.sendEvent({
         event_name: "user-invite",
         event_type: "single",
@@ -73,7 +75,7 @@ app.get('/scill/send-event/kill-enemy', (req, res) => {
     const environment = req.query.environment;
     const userId = '1234';
 
-    let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", environment);
+    let eventsApi = scill.getEventsApi(apiKey, environment);
     eventsApi.sendEvent({
         event_name: "kill-enemy",
         event_type: "single",

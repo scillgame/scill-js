@@ -8,6 +8,7 @@
         const appId = "597737952688570369";
         let challengesApi = null;
         const userId = '1234';
+        const environment = 'development';
 
         let webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
         webSocket.onmessage = function (event) {
