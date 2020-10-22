@@ -8,21 +8,26 @@
         const appId = "597737952688570369";
         let challengesApi = null;
         const userId = '1234';
-        const environment = 'development';
+        let webSocket = null;
 
-        let webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
-        webSocket.onmessage = function (event) {
-            console.log('Received Webhook', event.data);
-            updateChallenges();
-        }
+        // Setup the websocket to receive notifications if Webhook is called with challenge updates
+        setupWebsocket();
 
-        webSocket.onclose = function(event) {
-            console.log("Websocket closed, reconnecting");
+        function setupWebsocket() {
             webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
+            webSocket.onmessage = function (event) {
+                console.log('Received Webhook', event.data);
+                updateChallenges();
+            }
+
+            webSocket.onclose = function(event) {
+                console.log("Websocket closed, reconnecting");
+                setupWebsocket();
+            }
         }
 
         function sendEvent() {
-            window.fetch(`/scill/send-event/kill-enemy?environment=${environment}`)
+            window.fetch(`/scill/send-event/kill-enemy`)
                 .then(response => response.json())
                 .then(response => {
                     console.log("Sending event: ", response);
@@ -30,7 +35,7 @@
         }
 
         function sendUserInviteEvent() {
-            window.fetch(`/scill/send-event/user-invite?environment=${environment}`)
+            window.fetch(`/scill/send-event/user-invite`)
                 .then(response => response.json())
                 .then(response => {
                     console.log("Sending event: ", response);
@@ -89,7 +94,7 @@
 
         // Load custom backend provided in index.js NodeJS server
         function generateAccessToken() {
-            window.fetch(`/scill/generate-access-token?environment=${environment}`)
+            window.fetch(`/scill/generate-access-token`)
                 .then(response => response.json())
                 .then(response => {
                     if (response && response.token) {
@@ -98,13 +103,13 @@
                         return null;
                     }
                 }).then(token => {
-                console.log("Received access token", token);
-                accessToken = token;
+                    console.log("Received access token", token);
+                    accessToken = token;
 
-                // Setup the challenges API with the access token and load the first batch of challenges
-                challengesApi = SCILL.getChallengesApi(accessToken, environment);
-                updateChallenges();
-            });
+                    // Setup the challenges API with the access token and load the first batch of challenges
+                    challengesApi = SCILL.getChallengesApi(accessToken);
+                    updateChallenges();
+                });
         }
 
         function unlockChallenge(challengeId) {
@@ -163,6 +168,6 @@
 <h3>Your challenges</h3>
 <ul id="challenges" class="challenges"></ul>
 <p>This is a bare bones application to show off how easy it is to implement SCILL challenges into existing or new web
-    applications. More info can be found in our extensive developer documentation: <a href="https://developers.scillgame.com">SCILL Developer Documentation</a></p>
+applications. More info can be found in our extensive developer documentation: <a href="https://developers.scillgame.com">SCILL Developer Documentation</a></p>
 </body>
 </html>

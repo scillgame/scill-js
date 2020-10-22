@@ -1,0 +1,39 @@
+body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+ul {
+    padding: 0;
+}
+
+.challenges {
+    width: 350px;
+}
+
+.challenges > li {
+    list-style: none;
+    padding: 0px;
+    margin: 0;
+    border: 1px solid rgb(210,210,210);
+    background-color: rgb(210,210,210);
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.challenges > li:first-of-type {
+
+}
+
+.challenges > li > ul > li {
+    list-style: none;
+    margin-top: 5px;
+    padding: 10px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    font-weight: normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

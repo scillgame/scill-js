@@ -1,5 +1,5 @@
 const scill = require('@scillgame/scill-js');
-let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX", 'development');
+let eventsApi = scill.getEventsApi("ai728S-1aSdgb9GP#R]Po[P!1Z(HSSTpdULDMUAlYX");
 eventsApi.sendEvent({
     event_name: "kill-enemy",
     event_type: "single",
