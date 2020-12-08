@@ -38,10 +38,9 @@ This code uses browserify to build a `scill.js` file that you can include into t
 and use the code like you do in NodeJS:
 
 ```html
-<script type="text/javascript" src="scill.js"></script>
+<script type="text/javascript" src="https://scill-cdn.web.app/scill.js"></script>
 <script type="text/javascript">
-    let scill = new SCILLClient();
-    let eventsApi = scill.getEventsApi("XnY,-AV+7dNGwrp!fVmP;96xAZ~,sqXJ]]8Htd4U[F");
+    let eventsApi = SCILL.getEventsApi("XnY,-AV+7dNGwrp!fVmP;96xAZ~,sqXJ]]8Htd4U[F");
     eventsApi.sendEvent({
         eventName: "instant-death",
         eventType: "single",
