@@ -1,6 +1,6 @@
 {
   "name": "@scillgame/scill-js",
-  "version": "0.3.1",
+  "version": "1.2.1",
   "description": "SCILL Gamification as a Service SDK for NodeJS and JavaScript (browsers).",
   "author": "4Players Development Team",
   "keywords": [
@@ -19,9 +19,11 @@
     "build-client": "browserify dist/scillclient.js -o public/scill.js --standalone SCILL"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "custom.d.ts"
   ],
   "dependencies": {
+    "mqtt": "^4.2.6",
     "portable-fetch": "^3.0.0"
   },
   "devDependencies": {
@@ -30,7 +32,8 @@
     "browserify": "^16.5.2",
     "jest": "^25.4.0",
     "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "buffer": "^6.0.3"
   },
   "jest": {
     "transform": {

@@ -101,13 +101,19 @@ export interface ActionResponse {
      * @type {number}
      * @memberof ActionResponse
      */
-    status?: number;
+    status: number;
     /**
      * 
      * @type {string}
      * @memberof ActionResponse
      */
     message: string;
+    /**
+     * 
+     * @type {Challenge}
+     * @memberof ActionResponse
+     */
+    challenge?: Challenge;
 }
 /**
  * 
@@ -120,85 +126,121 @@ export interface BattlePass {
      * @type {string}
      * @memberof BattlePass
      */
-    battle_pass_id: string;
+    battle_pass_id?: string;
     /**
-     * If you want to sell Battle Passes you can use this field to trigger in-app purchase products within your mobile app. You can set this value in the Admin Panel.
+     * The unique id of the app
      * @type {string}
      * @memberof BattlePass
      */
-    package_sku: string;
+    app_id?: string;
     /**
-     * The name of the Battle Pass in the local language set in the request (see Setting Language). In the admin panel you can either create HTML content or plain text.
+     * The name of the battle bass. You can set that in the Admin Panel. The language is set with the query parameter language. See documentation for more info on that.
      * @type {string}
      * @memberof BattlePass
      */
-    name: string;
+    battle_pass_name?: string;
     /**
-     * The description of the Battle Pass in the local language set in the request (see Setting Language). In the admin panel you can either create HTML content or plain text.
+     * The description of the battle bass. You can set that in the Admin Panel and it can also be HTML. The language is set with the query parameter language. See documentation for more info on that.
      * @type {string}
      * @memberof BattlePass
      */
-    description: string;
+    battle_pass_description?: string;
     /**
-     * A short description in the local language you can use to teaser battle passes or implement “expand for more” functionality.
+     * A short description of the battle bass. You can set that in the Admin Panel and it can also be HTML. The language is set with the query parameter language. See documentation for more info on that.
      * @type {string}
      * @memberof BattlePass
      */
-    truncated_description: string;
+    battle_pass_short_description?: string;
     /**
-     * The mobile sized image name. For example you can use image and image_desktop to build a srcset in HTML or use them and size manually where you need them.
+     * Use this to provide some terms and conditions following along this battle passes purchase.
      * @type {string}
      * @memberof BattlePass
      */
-    image: string;
+    battle_pass_disclaimer?: string;
     /**
-     * The desktop sized image name or URL
+     * The priority of the battle pass. I.e. if multiple are available you can use this field to sort them.
+     * @type {number}
+     * @memberof BattlePass
+     */
+    battle_pass_priority?: number;
+    /**
+     * If you want to sell Battle Passes you can use this field to trigger in-app purchase products within your mobile app. You can set this value in the Admin Panel. This one is for iOS.
      * @type {string}
      * @memberof BattlePass
      */
-    image_desktop: string;
+    package_sku_ios?: string;
+    /**
+     * If you want to sell Battle Passes you can use this field to trigger in-app purchase products within your mobile app. You can set this value in the Admin Panel. Use this to set the package string for Android.
+     * @type {string}
+     * @memberof BattlePass
+     */
+    package_sku_android?: string;
+    /**
+     * The xs sized image name or url. You can determine the best size distribution yourself and depends on your application or UI
+     * @type {string}
+     * @memberof BattlePass
+     */
+    image_xs?: string;
+    /**
+     * The s sized image name or url. You can determine the best size distribution yourself and depends on your application or UI
+     * @type {string}
+     * @memberof BattlePass
+     */
+    image_s?: string;
+    /**
+     * The m sized image name or url. You can determine the best size distribution yourself and depends on your application or UI
+     * @type {string}
+     * @memberof BattlePass
+     */
+    image_m?: string;
+    /**
+     * The l sized image name or url. You can determine the best size distribution yourself and depends on your application or UI
+     * @type {string}
+     * @memberof BattlePass
+     */
+    image_l?: string;
+    /**
+     * The xl sized image name or url. You can determine the best size distribution yourself and depends on your application or UI
+     * @type {string}
+     * @memberof BattlePass
+     */
+    image_xl?: string;
     /**
      * The date (in iso format) when the Battle Pass starts. Tracking begins once this date is passed.
      * @type {string}
      * @memberof BattlePass
      */
-    battle_pass_start_date: string;
+    start_date?: string;
     /**
      * The date (in iso format) when the Battle Pass ends. Tracking stops once the end is reached and users will not be able to progress further than what they have achieved up to that point.
      * @type {string}
      * @memberof BattlePass
      */
-    battle_pass_end_date: string;
+    end_date?: string;
     /**
      * If the Battle Pass costs “money” you may want to route the user to a web site/page, where they can learn more about this battle pass. You can also use this field to route the user inside your application by providing a path or whatever works for you.
      * @type {string}
      * @memberof BattlePass
      */
-    read_more_link: string;
+    read_more_link?: string;
     /**
-     * Another field you can set in the admin panel. SCILL Play uses this field to show a specific page by name.
-     * @type {string}
-     * @memberof BattlePass
-     */
-    page_id: string;
-    /**
-     * This option is not available in all requests. It indicates if the user has completed this Battle Pass.
+     * Indicates if one level after the other must be activated or if users can activate whichever level they want. Typically battle passes are unlocked level by level, but if battle passes are used for other applications (like user referal programs) it can be useful to set this to false.
      * @type {boolean}
      * @memberof BattlePass
      */
-    battle_pass_completed?: boolean;
+    is_unlocked_incrementally?: boolean;
     /**
-     * Price for the Battle Pass. You can set this field in the Admin Panel. Often it makes sense to use Pricing functionality of in-app purchase APIs in the relevant eco system (Steam, AppStore, Google Play Store) to request the price, but if you don’t have access to that, you can use this field.
+     * Indicated if this battle pass is active.
+     * @type {boolean}
+     * @memberof BattlePass
+     */
+    is_active?: boolean;
+    /**
+     * The date in iso format when the user unlocked this Battle Pass.
      * @type {string}
      * @memberof BattlePass
      */
-    package_value_eur?: string;
-    /**
-     * The date in iso format when the user purchased/unlocked this Battle Pass.
-     * @type {string}
-     * @memberof BattlePass
-     */
-    purchased_at?: string;
+    unlocked_at?: string;
     /**
      * Indicates that this Battle Pass can be purchased via in-app purchase. This can be set in the Admin Panel.
      * @type {boolean}
@@ -211,12 +253,123 @@ export interface BattlePass {
      * @memberof BattlePass
      */
     can_purchase_with_coins?: boolean;
+}
+/**
+ * This payload is sent in Webhooks and notifications as part of the battlepass-challenge-changed notification. The idea is to provide enough information to quickly update UI or implementing backend logic. We provide both the state of the object before it changed, and after that. This allows you to react in many different ways.
+ * @export
+ * @interface BattlePassChallengeChangedPayload
+ */
+export interface BattlePassChallengeChangedPayload {
     /**
-     * An array of BattlePassLevel objects.
-     * @type {Array<BattlePassLevel>}
-     * @memberof BattlePass
+     * The type of the notification. If you receive this payload, it's most likely battlepass-challenge-changed
+     * @type {string}
+     * @memberof BattlePassChallengeChangedPayload
      */
-    levels?: Array<BattlePassLevel>;
+    webhook_type?: string;
+    /**
+     * 
+     * @type {BattlePassChallengeState}
+     * @memberof BattlePassChallengeChangedPayload
+     */
+    old_battle_pass_challenge?: BattlePassChallengeState;
+    /**
+     * 
+     * @type {BattlePassChallengeState}
+     * @memberof BattlePassChallengeChangedPayload
+     */
+    new_battle_pass_challenge?: BattlePassChallengeState;
+}
+/**
+ * This object stores information about a battle pass challenge state. It is designed to update challenges loaded previously with the getBattlePassLevels API. Indices allow you to quickly update locally stored Challenge objects without iterating or reloading data.
+ * @export
+ * @interface BattlePassChallengeState
+ */
+export interface BattlePassChallengeState {
+    /**
+     * The unique id of the app
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    app_id?: string;
+    /**
+     * The unique id of this battle pass.
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    battle_pass_id?: string;
+    /**
+     * Unique id of this BattlePassLevel object.
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    level_id?: string;
+    /**
+     * This is your user id. You can set this to whatever you like, either your real user id or an obfuscated user id. However you need to be consistent here. Events linked to this user id only track if challenges or battle passes are unlocked with the same user id.
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    user_id?: string;
+    /**
+     * Typical usage pattern is to load battle pass levels with getBattlePassLevels operation and store them for rendering. Using this value you can quickly identify the index of the level that changed.
+     * @type {number}
+     * @memberof BattlePassChallengeState
+     */
+    level_position_index?: number;
+    /**
+     * The unique id of this challenge. Every challenge is linked to a product.
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    challenge_id?: string;
+    /**
+     * Same as level_position_index. Use this index to identify the challenge that changed within the levels challenges array. Typical usage pattern is to update the previously stored score and type.
+     * @type {number}
+     * @memberof BattlePassChallengeState
+     */
+    challenge_position_index?: number;
+    /**
+     * Indicates how many “tasks” must be completed or done to complete this challenge.
+     * @type {number}
+     * @memberof BattlePassChallengeState
+     */
+    challenge_goal?: number;
+    /**
+     * Indicates how many tasks the user already has completed. Use this in combination with challenge_goal to render a nice progress bar.
+     * @type {number}
+     * @memberof BattlePassChallengeState
+     */
+    user_challenge_current_score?: number;
+    /**
+     * Indicates the status of the challenge. This can be one of the following unlock: Challenge does not track anything. in-progress: Challenge is active and tracking. overtime: User did not manage to finish the challenge in time. unclaimed: The challenge has been completed but the reward has not yet been claimed. finished: The challenge has been successfully be completed and the reward has been claimed
+     * @type {string}
+     * @memberof BattlePassChallengeState
+     */
+    type?: string;
+}
+/**
+ * This object is sent via Webhook or notifications of type battlepass-expired.
+ * @export
+ * @interface BattlePassExpiredPayload
+ */
+export interface BattlePassExpiredPayload {
+    /**
+     * The type of the notification. If you receive this payload, it's most likely battlepass-expired
+     * @type {string}
+     * @memberof BattlePassExpiredPayload
+     */
+    webhook_type?: string;
+    /**
+     * 
+     * @type {BattlePassState}
+     * @memberof BattlePassExpiredPayload
+     */
+    old_battle_pass?: BattlePassState;
+    /**
+     * 
+     * @type {BattlePassState}
+     * @memberof BattlePassExpiredPayload
+     */
+    new_battle_pass?: BattlePassState;
 }
 /**
  * 
@@ -229,61 +382,67 @@ export interface BattlePassLevel {
      * @type {string}
      * @memberof BattlePassLevel
      */
-    battle_pass_level_id: string;
+    level_id?: string;
     /**
-     * The position of the level inside the stack of levels. Every level in this array will have this value incremented by 1.
-     * @type {number}
+     * The app id
+     * @type {string}
      * @memberof BattlePassLevel
      */
-    level_priority: number;
+    app_id?: string;
+    /**
+     * The id of the battle pass this level belongs to
+     * @type {string}
+     * @memberof BattlePassLevel
+     */
+    battle_pass_id?: string;
+    /**
+     * In the Admin Panel you can set different types of rewards. You can also set an identifier of an in-game-item or anything you like. Use this to include the reward into your own business logic.
+     * @type {string}
+     * @memberof BattlePassLevel
+     */
+    reward_amount?: string;
+    /**
+     * There are different types of rewards available. Possible values are Coins, Voucher, Money and Experience. This is deprecated in favor of level_reward_type which uses a slug instead of a human readable expression
+     * @type {string}
+     * @memberof BattlePassLevel
+     */
+    reward_type_name?: string;
+    /**
+     * The reward type in a machine readable slug. Available values are nothing, coin, experience, item
+     * @type {string}
+     * @memberof BattlePassLevel
+     */
+    level_reward_type?: string;
     /**
      * Indicates if this level is completed, i.e. all challenges have been completed.
      * @type {boolean}
      * @memberof BattlePassLevel
      */
-    completed: boolean;
+    level_completed?: boolean;
     /**
-     * If all challenges in this level have been completed and can be claimed, this flag is true. I.e. show a “Claim Reward” button if this is true.
+     * Indicates the position of the level.
+     * @type {number}
+     * @memberof BattlePassLevel
+     */
+    level_priority?: number;
+    /**
+     * Indicates if this level has already be claimed.
      * @type {boolean}
      * @memberof BattlePassLevel
      */
-    can_claim: boolean;
+    reward_claimed?: boolean;
     /**
-     * Levels need to be unlocked one after the other. You can decide if you already want to show users the challenges waiting behind a locked challenge or if you hide them to make it more exciting for the user to unlock the next level.
-     * @type {boolean}
-     * @memberof BattlePassLevel
-     */
-    unlocked: boolean;
-    /**
-     * Indicates if the reward for this level has already been claimed. Important: Users need to claim the reward to unlock the next level! Of course, you can also do that via REST-API automatically.
-     * @type {boolean}
-     * @memberof BattlePassLevel
-     */
-    claimed: boolean;
-    /**
-     * The description of the reward in the local language set in the request (see Setting Language). In the admin panel you can either create HTML content or plain text.
+     * The date when this level has been activated or null if it's not activated.
      * @type {string}
      * @memberof BattlePassLevel
      */
-    reward_description: string;
+    activated_at?: string;
     /**
-     * The mobile sized image name of the reward. For example you can use reward_image and reward_image_desktop to build a srcset in HTML or use and size them manually where you need them. This can be freely set in the Admin Panel. Either indicates a local asset via name or you can also use a URL.
-     * @type {string}
-     * @memberof BattlePassLevel
-     */
-    reward_image: string;
-    /**
-     * The desktop sized image name of the reward. Either indicates a local asset via name or you can also use a URL.
-     * @type {string}
-     * @memberof BattlePassLevel
-     */
-    reward_image_desktop: string;
-    /**
-     * An array of BattlePassLevelChallenge objects.
+     * An array of BattlePassLevelChallenge objects. Please note, not all values are available from the challenge object, as battle passes handle the lifecycle of challenges.
      * @type {Array<BattlePassLevelChallenge>}
      * @memberof BattlePassLevel
      */
-    challenges: Array<BattlePassLevelChallenge>;
+    challenges?: Array<BattlePassLevelChallenge>;
 }
 /**
  * 
@@ -292,38 +451,75 @@ export interface BattlePassLevel {
  */
 export interface BattlePassLevelChallenge {
     /**
-     * The number of things a user needs to achieve until this challenge is completed.
-     * @type {number}
-     * @memberof BattlePassLevelChallenge
-     */
-    challenge_goal: number;
-    /**
-     * The name in the local language indicated what to do.
+     * The unique id of this challenge. Every challenge is linked to a product.
      * @type {string}
      * @memberof BattlePassLevelChallenge
      */
-    name: string;
+    challenge_id?: string;
     /**
-     * The current number of things the user already has achieved. Use this in combination with challenge_goal to calculate progress and to render a nice progress bar/indicator.
+     * The name of the challenge in the language set by the language parameter.
+     * @type {string}
+     * @memberof BattlePassLevelChallenge
+     */
+    challenge_name?: string;
+    /**
+     * Indicates how many “tasks” must be completed or done to complete this challenge.
      * @type {number}
      * @memberof BattlePassLevelChallenge
      */
-    current_challenge_amount: number;
+    challenge_goal?: number;
     /**
-     * Indicates if this challenge is completed. Once all challenges in a BattlePassLevel object are completed, the current level reward can be claimed and the next level is unlocked.
-     * @type {boolean}
+     * With this you can set the way how the SCILL system approaches the challenges state. 0 means, that the counter of the challenge must be brought above the goal. If this is 1, then the counter must be kept below the goal. This is often useful for challenges that include times, like: Manage the level in under 50 seconds.
+     * @type {number}
      * @memberof BattlePassLevelChallenge
      */
-    completed: boolean;
+    challenge_goal_condition?: number;
     /**
-     * Indicates if the challenge is active, thus tracking progress.
-     * @type {boolean}
+     * Indicates how many tasks the user already has completed. Use this in combination with challenge_goal to render a nice progress bar.
+     * @type {number}
      * @memberof BattlePassLevelChallenge
      */
-    active: boolean;
+    user_challenge_current_score?: number;
+    /**
+     * In the admin panel you can set a string representing an image. This can be a URL, but it can also be an image or texture that you have in your games asset database.
+     * @type {string}
+     * @memberof BattlePassLevelChallenge
+     */
+    challenge_icon?: string;
+    /**
+     * This is the HD variant of the challenge icon image. If you have a game, that runs on multiple platforms that could come in handy. Otherwise just leave blank.
+     * @type {string}
+     * @memberof BattlePassLevelChallenge
+     */
+    challenge_icon_hd?: string;
+    /**
+     * Indicates the status of the challenge. This can be one of the following unlock: Challenge does not track anything. in-progress: Challenge is active and tracking. overtime: User did not manage to finish the challenge in time. unclaimed: The challenge has been completed but the reward has not yet been claimed. finished: The challenge has been successfully be completed and the reward has been claimed
+     * @type {string}
+     * @memberof BattlePassLevelChallenge
+     */
+    type?: string;
 }
 /**
- * 
+ * Payload sent via Webhook or realtime notifications whenever a usrs level reward has been claimed. Use this payload to unlock the item for the specified user.
+ * @export
+ * @interface BattlePassLevelClaimedPayload
+ */
+export interface BattlePassLevelClaimedPayload {
+    /**
+     * The type of the notification. If you receive this payload, it's most likely battlepass-level-reward-claimed
+     * @type {string}
+     * @memberof BattlePassLevelClaimedPayload
+     */
+    webhook_type?: string;
+    /**
+     * 
+     * @type {BattlePassLevelReward}
+     * @memberof BattlePassLevelClaimedPayload
+     */
+    battle_pass_level_reward_claimed?: BattlePassLevelReward;
+}
+/**
+ * Used in previous versions of the battle pass system to provide the level_id via payload. We changed routes in newer versions to have level id in the path.
  * @export
  * @interface BattlePassLevelId
  */
@@ -334,6 +530,203 @@ export interface BattlePassLevelId {
      * @memberof BattlePassLevelId
      */
     battle_pass_level_id: string;
+}
+/**
+ * This objects holds information about a battle pass reward
+ * @export
+ * @interface BattlePassLevelReward
+ */
+export interface BattlePassLevelReward {
+    /**
+     * The unique id of the app
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    app_id?: string;
+    /**
+     * The unique id of this battle pass.
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    battle_pass_id?: string;
+    /**
+     * Unique id of this BattlePassLevel object.
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    level_id?: string;
+    /**
+     * This is your user id. You can set this to whatever you like, either your real user id or an obfuscated user id. However you need to be consistent here. Events linked to this user id only track if challenges or battle passes are unlocked with the same user id.
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    user_id?: string;
+    /**
+     * Typical usage pattern is to load battle pass levels with getBattlePassLevels operation and store them for rendering. Using this value you can quickly identify the index of the level that changed.
+     * @type {number}
+     * @memberof BattlePassLevelReward
+     */
+    level_position_index?: number;
+    /**
+     * In the Admin Panel you can set different types of rewards. You can also set an identifier of an in-game-item or anything you like. Use this to include the reward into your own business logic.
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    reward_amount?: string;
+    /**
+     * There are different types of rewards available. Possible values are Coins, Voucher, Money and Experience.
+     * @type {string}
+     * @memberof BattlePassLevelReward
+     */
+    reward_type_name?: string;
+}
+/**
+ * This object holds some basic info about lifetime of a battle pass and is used in expired notifications.
+ * @export
+ * @interface BattlePassState
+ */
+export interface BattlePassState {
+    /**
+     * The unique id of this battle pass.
+     * @type {string}
+     * @memberof BattlePassState
+     */
+    battle_pass_id?: string;
+    /**
+     * The unique id of the app
+     * @type {string}
+     * @memberof BattlePassState
+     */
+    app_id?: string;
+    /**
+     * The priority of the battle pass. I.e. if multiple are available you can use this field to sort them.
+     * @type {number}
+     * @memberof BattlePassState
+     */
+    battle_pass_priority?: number;
+    /**
+     * The date (in iso format) when the Battle Pass starts. Tracking begins once this date is passed.
+     * @type {string}
+     * @memberof BattlePassState
+     */
+    start_date?: string;
+    /**
+     * The date (in iso format) when the Battle Pass ends. Tracking stops once the end is reached and users will not be able to progress further than what they have achieved up to that point.
+     * @type {string}
+     * @memberof BattlePassState
+     */
+    end_date?: string;
+    /**
+     * Indicated if this battle pass is active.
+     * @type {boolean}
+     * @memberof BattlePassState
+     */
+    is_active?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface BattlePassTranslation
+ */
+export interface BattlePassTranslation {
+    /**
+     * The id of the language
+     * @type {string}
+     * @memberof BattlePassTranslation
+     */
+    language_id?: string;
+    /**
+     * The name of the Battle Pass in the local language set in the request (see Setting Language). In the admin panel you can either create HTML content or plain text.
+     * @type {string}
+     * @memberof BattlePassTranslation
+     */
+    name?: string;
+    /**
+     * The description of the Battle Pass in the local language set in the request (see Setting Language). In the admin panel you can either create HTML content or plain text.
+     * @type {string}
+     * @memberof BattlePassTranslation
+     */
+    description?: string;
+    /**
+     * A short description in the local language you can use to teaser battle passes or implement “expand for more” functionality.
+     * @type {string}
+     * @memberof BattlePassTranslation
+     */
+    short_description?: string;
+    /**
+     * Use this to provide some terms and conditions following along this battle passes purchase.
+     * @type {string}
+     * @memberof BattlePassTranslation
+     */
+    disclaimer?: string;
+}
+/**
+ * 
+ * @export
+ * @interface BattlePassUnlockInfo
+ */
+export interface BattlePassUnlockInfo {
+    /**
+     * The id of this battle pass purchase
+     * @type {string}
+     * @memberof BattlePassUnlockInfo
+     */
+    purchase_id?: string;
+    /**
+     * The battle pass id
+     * @type {string}
+     * @memberof BattlePassUnlockInfo
+     */
+    battle_pass_id?: string;
+    /**
+     * The user id of this battle pass purchase
+     * @type {string}
+     * @memberof BattlePassUnlockInfo
+     */
+    user_id?: string;
+    /**
+     * The price paid for this battle pass
+     * @type {number}
+     * @memberof BattlePassUnlockInfo
+     */
+    purchase_price?: number;
+    /**
+     * The currency used to purchase this battle pass
+     * @type {string}
+     * @memberof BattlePassUnlockInfo
+     */
+    purchase_currency?: string;
+    /**
+     * The date this battle pass has been purchased
+     * @type {string}
+     * @memberof BattlePassUnlockInfo
+     */
+    purchased_at?: string;
+    /**
+     * Indicates if this battle pass has been completed
+     * @type {boolean}
+     * @memberof BattlePassUnlockInfo
+     */
+    battle_pass_completed?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface BattlePassUnlockPayload
+ */
+export interface BattlePassUnlockPayload {
+    /**
+     * The purchase price. Set to 0 if this was free. The idea behind this is to provide information via an Admin Panel on average purchase price and to also allow showing users purchase info in their user account.
+     * @type {number}
+     * @memberof BattlePassUnlockPayload
+     */
+    purchase_price: number;
+    /**
+     * The currency (EUR, USD, etc) of the purchase price
+     * @type {string}
+     * @memberof BattlePassUnlockPayload
+     */
+    purchase_currency: string;
 }
 /**
  * 
@@ -347,12 +740,6 @@ export interface Challenge {
      * @memberof Challenge
      */
     challenge_id?: string;
-    /**
-     * If this challenge is unlocked (i.e. active see type) then this is the unique id of the challenge assiociated to the user. Otherwise this is 0 or empty.
-     * @type {string}
-     * @memberof Challenge
-     */
-    user_challenge_id?: string;
     /**
      * The name of the challenge in the language set by the language parameter.
      * @type {string}
@@ -396,6 +783,36 @@ export interface Challenge {
      */
     challenge_icon_hd?: string;
     /**
+     * If you purchase the challenge, you can set a price.
+     * @type {number}
+     * @memberof Challenge
+     */
+    challenge_price?: number;
+    /**
+     * Set a reward for this challenge. This is a string value that you can map to anything in your code. Use in combination with challenge_reward_type.
+     * @type {string}
+     * @memberof Challenge
+     */
+    challenge_reward?: string;
+    /**
+     * The reward type can be set to various different settings. Use it to implement different reward types on your side and use challenge_reward to set the value or amount of this reward.
+     * @type {string}
+     * @memberof Challenge
+     */
+    challenge_reward_type?: string;
+    /**
+     * With this you can set the way how the SCILL system approaches the challenges state. 0 means, that the counter of the challenge must be brought above the goal. If this is 1, then the counter must be kept below the goal. This is often useful for challenges that include times, like: Manage the level in under 50 seconds.
+     * @type {number}
+     * @memberof Challenge
+     */
+    challenge_goal_condition?: number;
+    /**
+     * If you have experience, player rankings whatever, you can use this field to set the gain in that when this challenge is rewarded.
+     * @type {number}
+     * @memberof Challenge
+     */
+    challenge_xp?: number;
+    /**
      * If this challenge can be only activated once per user this will be false. Otherwise this challenge will always be added to list of available challenges (see personal or alliance challenges).
      * @type {boolean}
      * @memberof Challenge
@@ -425,6 +842,18 @@ export interface Challenge {
      * @memberof Challenge
      */
     user_challenge_activated_at?: string;
+    /**
+     * Indicates if this challenge has been claimed.
+     * @type {boolean}
+     * @memberof Challenge
+     */
+    user_challenge_is_claimed?: boolean;
+    /**
+     * Gives indication in what state the challenge is.
+     * @type {number}
+     * @memberof Challenge
+     */
+    user_challenge_status?: number;
 }
 /**
  * 
@@ -468,6 +897,50 @@ export interface ChallengeCategory {
      * @memberof ChallengeCategory
      */
     challenges?: Array<Challenge>;
+}
+/**
+ * The payload sent to the users webhook.
+ * @export
+ * @interface ChallengeWebhookPayload
+ */
+export interface ChallengeWebhookPayload {
+    /**
+     * 
+     * @type {Challenge}
+     * @memberof ChallengeWebhookPayload
+     */
+    new_challenge?: Challenge;
+    /**
+     * 
+     * @type {Challenge}
+     * @memberof ChallengeWebhookPayload
+     */
+    old_challenge?: Challenge;
+}
+/**
+ * Describes an available event structure
+ * @export
+ * @interface EventDescription
+ */
+export interface EventDescription {
+    /**
+     * The name of the event, i.e kill-enemy. This will be used in the EventPayload as event_name.
+     * @type {string}
+     * @memberof EventDescription
+     */
+    event_name?: string;
+    /**
+     * A list of required properties - properties that must be set
+     * @type {Array<EventProperty>}
+     * @memberof EventDescription
+     */
+    required_properties?: Array<EventProperty>;
+    /**
+     * A list of optional properties
+     * @type {Array<EventProperty>}
+     * @memberof EventDescription
+     */
+    optional_properties?: Array<EventProperty>;
 }
 /**
  * This holds metadata and is specific to each event type. Please have a look at the documentation to learn which properties need to be set for the event-type you want to send.
@@ -871,19 +1344,19 @@ export interface EventPayload {
      * @type {string}
      * @memberof EventPayload
      */
-    user_id: string;
+    user_id?: string;
     /**
      * This is required if event_type is single and identifies a session. This can be anything used to group events together. For example this can be a level or a match id.
      * @type {string}
      * @memberof EventPayload
      */
-    session_id: string;
+    session_id?: string;
     /**
      * This is the event type as a string. These have predefined event names for many games and applications. It’s wise to use those as this allows us to analyse data and help you balancing your application or game.
      * @type {string}
      * @memberof EventPayload
      */
-    event_name: string;
+    event_name?: string;
     /**
      * This is either single or group. You can send multiple events in one request (group) or send events in sequence. Please note, that depending on your tier you might run into rate limits.
      * @type {string}
@@ -896,6 +1369,25 @@ export interface EventPayload {
      * @memberof EventPayload
      */
     meta_data?: EventMetaData;
+}
+/**
+ * This object holds information about a proporty of an event. Events have required and optional properties.
+ * @export
+ * @interface EventProperty
+ */
+export interface EventProperty {
+    /**
+     * The name of the property. Is the field value in the event payloads meta_data.
+     * @type {string}
+     * @memberof EventProperty
+     */
+    property_name?: string;
+    /**
+     * The type of the property. Can be number or string.
+     * @type {string}
+     * @memberof EventProperty
+     */
+    property_type?: string;
 }
 /**
  * 
@@ -928,6 +1420,19 @@ export interface ModelError {
      * @memberof ModelError
      */
     message: string;
+}
+/**
+ * 
+ * @export
+ * @interface NotificationTopic
+ */
+export interface NotificationTopic {
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationTopic
+     */
+    topic: string;
 }
 /**
  * 
@@ -1016,6 +1521,126 @@ export const AuthApiFetchParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass or challenges and levels within the battle pass change
+         * @param {string} battle_pass_id The battle pass you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserBattlePassNotificationTopic(battle_pass_id: string, options: any = {}): FetchArgs {
+            // verify required parameter 'battle_pass_id' is not null or undefined
+            if (battle_pass_id === null || battle_pass_id === undefined) {
+                throw new RequiredError('battle_pass_id','Required parameter battle_pass_id was null or undefined when calling getUserBattlePassNotificationTopic.');
+            }
+            const localVarPath = `/api/v1/auth/user-battle-pass-topic-link`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            if (battle_pass_id !== undefined) {
+                localVarQueryParameter['battle_pass_id'] = battle_pass_id;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever the challenge changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever the specified challenge changes.
+         * @param {string} challenge_id The challenge id you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengeNotificationTopic(challenge_id: string, options: any = {}): FetchArgs {
+            // verify required parameter 'challenge_id' is not null or undefined
+            if (challenge_id === null || challenge_id === undefined) {
+                throw new RequiredError('challenge_id','Required parameter challenge_id was null or undefined when calling getUserChallengeNotificationTopic.');
+            }
+            const localVarPath = `/api/v1/auth/user-challenge-topic-link`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            if (challenge_id !== undefined) {
+                localVarQueryParameter['challenge_id'] = challenge_id;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token change.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token changes.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengesNotificationTopic(options: any = {}): FetchArgs {
+            const localVarPath = `/api/v1/auth/user-challenges-topic-link`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1034,6 +1659,62 @@ export const AuthApiFp = function(configuration?: Configuration) {
          */
         generateAccessToken(body: ForeignUserIdentifier, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<AccessToken> {
             const localVarFetchArgs = AuthApiFetchParamCreator(configuration).generateAccessToken(body, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass or challenges and levels within the battle pass change
+         * @param {string} battle_pass_id The battle pass you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserBattlePassNotificationTopic(battle_pass_id: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<NotificationTopic> {
+            const localVarFetchArgs = AuthApiFetchParamCreator(configuration).getUserBattlePassNotificationTopic(battle_pass_id, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever the challenge changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever the specified challenge changes.
+         * @param {string} challenge_id The challenge id you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengeNotificationTopic(challenge_id: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<NotificationTopic> {
+            const localVarFetchArgs = AuthApiFetchParamCreator(configuration).getUserChallengeNotificationTopic(challenge_id, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token change.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token changes.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengesNotificationTopic(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<NotificationTopic> {
+            const localVarFetchArgs = AuthApiFetchParamCreator(configuration).getUserChallengesNotificationTopic(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1063,6 +1744,35 @@ export const AuthApiFactory = function (configuration?: Configuration, fetch?: F
         generateAccessToken(body: ForeignUserIdentifier, options?: any) {
             return AuthApiFp(configuration).generateAccessToken(body, options)(fetch, basePath);
         },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass or challenges and levels within the battle pass change
+         * @param {string} battle_pass_id The battle pass you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserBattlePassNotificationTopic(battle_pass_id: string, options?: any) {
+            return AuthApiFp(configuration).getUserBattlePassNotificationTopic(battle_pass_id, options)(fetch, basePath);
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever the challenge changes.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever the specified challenge changes.
+         * @param {string} challenge_id The challenge id you want to get notified
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengeNotificationTopic(challenge_id: string, options?: any) {
+            return AuthApiFp(configuration).getUserChallengeNotificationTopic(challenge_id, options)(fetch, basePath);
+        },
+        /**
+         * Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token change.
+         * @summary Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token changes.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserChallengesNotificationTopic(options?: any) {
+            return AuthApiFp(configuration).getUserChallengesNotificationTopic(options)(fetch, basePath);
+        },
     };
 };
 
@@ -1085,6 +1795,41 @@ export class AuthApi extends BaseAPI {
         return AuthApiFp(this.configuration).generateAccessToken(body, options)(this.fetch, this.basePath);
     }
 
+    /**
+     * Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass changes.
+     * @summary Get a topic to be used with an MQTT client to receive real time updates whenever a battle pass or challenges and levels within the battle pass change
+     * @param {string} battle_pass_id The battle pass you want to get notified
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public getUserBattlePassNotificationTopic(battle_pass_id: string, options?: any) {
+        return AuthApiFp(this.configuration).getUserBattlePassNotificationTopic(battle_pass_id, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get a topic to be used with an MQTT client to receive real time updates whenever the challenge changes.
+     * @summary Get a topic to be used with an MQTT client to receive real time updates whenever the specified challenge changes.
+     * @param {string} challenge_id The challenge id you want to get notified
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public getUserChallengeNotificationTopic(challenge_id: string, options?: any) {
+        return AuthApiFp(this.configuration).getUserChallengeNotificationTopic(challenge_id, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token change.
+     * @summary Get a topic to be used with an MQTT client to receive real time updates whenever challenges for the user provided by the access token changes.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public getUserChallengesNotificationTopic(options?: any) {
+        return AuthApiFp(this.configuration).getUserChallengesNotificationTopic(options)(this.fetch, this.basePath);
+    }
+
 }
 /**
  * BattlePassesApi - fetch parameter creator
@@ -1093,30 +1838,25 @@ export class AuthApi extends BaseAPI {
 export const BattlePassesApiFetchParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Claim the reward of a battle pass level
-         * @summary Claim the reward of a finished personal challenge
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload.
+         * Activate a given battle pass level by id
+         * @summary Activate a given battle pass level by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} levelId The id of the battle pass level.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimBattlePassLevelReward(body: BattlePassLevelId, appId: string, bpid: string, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling claimBattlePassLevelReward.');
-            }
+        activateBattlePassLevel(appId: string, levelId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
-                throw new RequiredError('appId','Required parameter appId was null or undefined when calling claimBattlePassLevelReward.');
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling activateBattlePassLevel.');
             }
-            // verify required parameter 'bpid' is not null or undefined
-            if (bpid === null || bpid === undefined) {
-                throw new RequiredError('bpid','Required parameter bpid was null or undefined when calling claimBattlePassLevelReward.');
+            // verify required parameter 'levelId' is not null or undefined
+            if (levelId === null || levelId === undefined) {
+                throw new RequiredError('levelId','Required parameter levelId was null or undefined when calling activateBattlePassLevel.');
             }
-            const localVarPath = `/api/v1/battle-passes/{appId}/{bpid}/claim-level`
+            const localVarPath = `/api/v1/battle-pass-levels/{appId}/activate/{levelId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"bpid"}}`, encodeURIComponent(String(bpid)));
+                .replace(`{${"levelId"}}`, encodeURIComponent(String(levelId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1133,14 +1873,136 @@ export const BattlePassesApiFetchParamCreator = function (configuration?: Config
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Claim the battle pass level id
+         * @summary Claim the battle pass level reward. This will trigger a Webhook that you can use to unlock the reward on server side. If you don't have a server you can also unlock in the client application after receiving a positive response.
+         * @param {string} appId The app id
+         * @param {string} levelId The id of the battle pass level.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        claimBattlePassLevelReward(appId: string, levelId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling claimBattlePassLevelReward.');
+            }
+            // verify required parameter 'levelId' is not null or undefined
+            if (levelId === null || levelId === undefined) {
+                throw new RequiredError('levelId','Required parameter levelId was null or undefined when calling claimBattlePassLevelReward.');
+            }
+            const localVarPath = `/api/v1/battle-pass-levels/{appId}/claim/{levelId}`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
+                .replace(`{${"levelId"}}`, encodeURIComponent(String(levelId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"BattlePassLevelId" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get active battle passes for the app
+         * @summary Get battle passes
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getActiveBattlePasses(appId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling getActiveBattlePasses.');
+            }
+            const localVarPath = `/api/v1/battle-passes/{appId}/active`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get all battle pass levels for an app
+         * @summary Get battle pass levels for an app (from all battle passes)
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllBattlePassLevels(appId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling getAllBattlePassLevels.');
+            }
+            const localVarPath = `/api/v1/battle-pass-levels/{appId}`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1149,24 +2011,70 @@ export const BattlePassesApiFetchParamCreator = function (configuration?: Config
         },
         /**
          * Get battle pass for the product with id
-         * @summary Get battle passe by id
+         * @summary Get battle pass by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBattlePass(appId: string, bpid: string, options: any = {}): FetchArgs {
+        getBattlePass(appId: string, battlePassId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
                 throw new RequiredError('appId','Required parameter appId was null or undefined when calling getBattlePass.');
             }
-            // verify required parameter 'bpid' is not null or undefined
-            if (bpid === null || bpid === undefined) {
-                throw new RequiredError('bpid','Required parameter bpid was null or undefined when calling getBattlePass.');
+            // verify required parameter 'battlePassId' is not null or undefined
+            if (battlePassId === null || battlePassId === undefined) {
+                throw new RequiredError('battlePassId','Required parameter battlePassId was null or undefined when calling getBattlePass.');
             }
-            const localVarPath = `/api/v1/battle-passes/{appId}/{bpid}`
+            const localVarPath = `/api/v1/battle-passes/{appId}/single/{battlePassId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"bpid"}}`, encodeURIComponent(String(bpid)));
+                .replace(`{${"battlePassId"}}`, encodeURIComponent(String(battlePassId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get battle pass levels for a battle pass
+         * @summary Get battle pass levels for a battle pass
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBattlePassLevels(appId: string, battlePassId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling getBattlePassLevels.');
+            }
+            // verify required parameter 'battlePassId' is not null or undefined
+            if (battlePassId === null || battlePassId === undefined) {
+                throw new RequiredError('battlePassId','Required parameter battlePassId was null or undefined when calling getBattlePassLevels.');
+            }
+            const localVarPath = `/api/v1/battle-pass-levels/{appId}/{battlePassId}`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
+                .replace(`{${"battlePassId"}}`, encodeURIComponent(String(battlePassId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1234,30 +2142,66 @@ export const BattlePassesApiFetchParamCreator = function (configuration?: Config
             };
         },
         /**
-         * Unlock a battle pass level
-         * @summary Unlock the level of a battle pass
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload
+         * Get unlocked battle passes for the user encoded in the access token
+         * @summary Get battle passes unlocked by the user
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockBattlePassLevel(body: BattlePassLevelId, appId: string, bpid: string, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling unlockBattlePassLevel.');
-            }
+        getUnlockedBattlePasses(appId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
-                throw new RequiredError('appId','Required parameter appId was null or undefined when calling unlockBattlePassLevel.');
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling getUnlockedBattlePasses.');
             }
-            // verify required parameter 'bpid' is not null or undefined
-            if (bpid === null || bpid === undefined) {
-                throw new RequiredError('bpid','Required parameter bpid was null or undefined when calling unlockBattlePassLevel.');
+            const localVarPath = `/api/v1/battle-passes/{appId}/unlocked`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
-            const localVarPath = `/api/v1/battle-passes/{appId}/{bpid}/unlock`
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Unlock the battle pass for a user
+         * @summary Unlock the battle pass for the user specified in the access token
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {BattlePassUnlockPayload} [body] Provide purchase info for the battle pass
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unlockBattlePass(appId: string, battlePassId: string, body?: BattlePassUnlockPayload, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling unlockBattlePass.');
+            }
+            // verify required parameter 'battlePassId' is not null or undefined
+            if (battlePassId === null || battlePassId === undefined) {
+                throw new RequiredError('battlePassId','Required parameter battlePassId was null or undefined when calling unlockBattlePass.');
+            }
+            const localVarPath = `/api/v1/battle-passes/{appId}/unlock/{battlePassId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"bpid"}}`, encodeURIComponent(String(bpid)));
+                .replace(`{${"battlePassId"}}`, encodeURIComponent(String(battlePassId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1280,7 +2224,7 @@ export const BattlePassesApiFetchParamCreator = function (configuration?: Config
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"BattlePassLevelId" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (<any>"BattlePassUnlockPayload" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
@@ -1298,16 +2242,73 @@ export const BattlePassesApiFetchParamCreator = function (configuration?: Config
 export const BattlePassesApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * Claim the reward of a battle pass level
-         * @summary Claim the reward of a finished personal challenge
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload.
+         * Activate a given battle pass level by id
+         * @summary Activate a given battle pass level by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} levelId The id of the battle pass level.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimBattlePassLevelReward(body: BattlePassLevelId, appId: string, bpid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).claimBattlePassLevelReward(body, appId, bpid, options);
+        activateBattlePassLevel(appId: string, levelId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).activateBattlePassLevel(appId, levelId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Claim the battle pass level id
+         * @summary Claim the battle pass level reward. This will trigger a Webhook that you can use to unlock the reward on server side. If you don't have a server you can also unlock in the client application after receiving a positive response.
+         * @param {string} appId The app id
+         * @param {string} levelId The id of the battle pass level.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        claimBattlePassLevelReward(appId: string, levelId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).claimBattlePassLevelReward(appId, levelId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get active battle passes for the app
+         * @summary Get battle passes
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getActiveBattlePasses(appId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<BattlePass>> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getActiveBattlePasses(appId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get all battle pass levels for an app
+         * @summary Get battle pass levels for an app (from all battle passes)
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllBattlePassLevels(appId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<BattlePassLevel>> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getAllBattlePassLevels(appId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1320,14 +2321,34 @@ export const BattlePassesApiFp = function(configuration?: Configuration) {
         },
         /**
          * Get battle pass for the product with id
-         * @summary Get battle passe by id
+         * @summary Get battle pass by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBattlePass(appId: string, bpid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<BattlePass> {
-            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getBattlePass(appId, bpid, options);
+        getBattlePass(appId: string, battlePassId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<BattlePass> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getBattlePass(appId, battlePassId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get battle pass levels for a battle pass
+         * @summary Get battle pass levels for a battle pass
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBattlePassLevels(appId: string, battlePassId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<BattlePassLevel>> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getBattlePassLevels(appId, battlePassId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1358,16 +2379,35 @@ export const BattlePassesApiFp = function(configuration?: Configuration) {
             };
         },
         /**
-         * Unlock a battle pass level
-         * @summary Unlock the level of a battle pass
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload
+         * Get unlocked battle passes for the user encoded in the access token
+         * @summary Get battle passes unlocked by the user
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockBattlePassLevel(body: BattlePassLevelId, appId: string, bpid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).unlockBattlePassLevel(body, appId, bpid, options);
+        getUnlockedBattlePasses(appId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<BattlePass>> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).getUnlockedBattlePasses(appId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Unlock the battle pass for a user
+         * @summary Unlock the battle pass for the user specified in the access token
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {BattlePassUnlockPayload} [body] Provide purchase info for the battle pass
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unlockBattlePass(appId: string, battlePassId: string, body?: BattlePassUnlockPayload, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<BattlePassUnlockInfo> {
+            const localVarFetchArgs = BattlePassesApiFetchParamCreator(configuration).unlockBattlePass(appId, battlePassId, body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1388,27 +2428,68 @@ export const BattlePassesApiFp = function(configuration?: Configuration) {
 export const BattlePassesApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
-         * Claim the reward of a battle pass level
-         * @summary Claim the reward of a finished personal challenge
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload.
+         * Activate a given battle pass level by id
+         * @summary Activate a given battle pass level by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} levelId The id of the battle pass level.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimBattlePassLevelReward(body: BattlePassLevelId, appId: string, bpid: string, options?: any) {
-            return BattlePassesApiFp(configuration).claimBattlePassLevelReward(body, appId, bpid, options)(fetch, basePath);
+        activateBattlePassLevel(appId: string, levelId: string, options?: any) {
+            return BattlePassesApiFp(configuration).activateBattlePassLevel(appId, levelId, options)(fetch, basePath);
+        },
+        /**
+         * Claim the battle pass level id
+         * @summary Claim the battle pass level reward. This will trigger a Webhook that you can use to unlock the reward on server side. If you don't have a server you can also unlock in the client application after receiving a positive response.
+         * @param {string} appId The app id
+         * @param {string} levelId The id of the battle pass level.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        claimBattlePassLevelReward(appId: string, levelId: string, options?: any) {
+            return BattlePassesApiFp(configuration).claimBattlePassLevelReward(appId, levelId, options)(fetch, basePath);
+        },
+        /**
+         * Get active battle passes for the app
+         * @summary Get battle passes
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getActiveBattlePasses(appId: string, options?: any) {
+            return BattlePassesApiFp(configuration).getActiveBattlePasses(appId, options)(fetch, basePath);
+        },
+        /**
+         * Get all battle pass levels for an app
+         * @summary Get battle pass levels for an app (from all battle passes)
+         * @param {string} appId The app id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllBattlePassLevels(appId: string, options?: any) {
+            return BattlePassesApiFp(configuration).getAllBattlePassLevels(appId, options)(fetch, basePath);
         },
         /**
          * Get battle pass for the product with id
-         * @summary Get battle passe by id
+         * @summary Get battle pass by id
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBattlePass(appId: string, bpid: string, options?: any) {
-            return BattlePassesApiFp(configuration).getBattlePass(appId, bpid, options)(fetch, basePath);
+        getBattlePass(appId: string, battlePassId: string, options?: any) {
+            return BattlePassesApiFp(configuration).getBattlePass(appId, battlePassId, options)(fetch, basePath);
+        },
+        /**
+         * Get battle pass levels for a battle pass
+         * @summary Get battle pass levels for a battle pass
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBattlePassLevels(appId: string, battlePassId: string, options?: any) {
+            return BattlePassesApiFp(configuration).getBattlePassLevels(appId, battlePassId, options)(fetch, basePath);
         },
         /**
          * Get battle passes for the product
@@ -1421,16 +2502,26 @@ export const BattlePassesApiFactory = function (configuration?: Configuration, f
             return BattlePassesApiFp(configuration).getBattlePasses(appId, options)(fetch, basePath);
         },
         /**
-         * Unlock a battle pass level
-         * @summary Unlock the level of a battle pass
-         * @param {BattlePassLevelId} body Provide the battle pass level id in this payload
+         * Get unlocked battle passes for the user encoded in the access token
+         * @summary Get battle passes unlocked by the user
          * @param {string} appId The app id
-         * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockBattlePassLevel(body: BattlePassLevelId, appId: string, bpid: string, options?: any) {
-            return BattlePassesApiFp(configuration).unlockBattlePassLevel(body, appId, bpid, options)(fetch, basePath);
+        getUnlockedBattlePasses(appId: string, options?: any) {
+            return BattlePassesApiFp(configuration).getUnlockedBattlePasses(appId, options)(fetch, basePath);
+        },
+        /**
+         * Unlock the battle pass for a user
+         * @summary Unlock the battle pass for the user specified in the access token
+         * @param {string} appId The app id
+         * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+         * @param {BattlePassUnlockPayload} [body] Provide purchase info for the battle pass
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unlockBattlePass(appId: string, battlePassId: string, body?: BattlePassUnlockPayload, options?: any) {
+            return BattlePassesApiFp(configuration).unlockBattlePass(appId, battlePassId, body, options)(fetch, basePath);
         },
     };
 };
@@ -1443,30 +2534,79 @@ export const BattlePassesApiFactory = function (configuration?: Configuration, f
  */
 export class BattlePassesApi extends BaseAPI {
     /**
-     * Claim the reward of a battle pass level
-     * @summary Claim the reward of a finished personal challenge
-     * @param {BattlePassLevelId} body Provide the battle pass level id in this payload.
+     * Activate a given battle pass level by id
+     * @summary Activate a given battle pass level by id
      * @param {string} appId The app id
-     * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+     * @param {string} levelId The id of the battle pass level.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BattlePassesApi
      */
-    public claimBattlePassLevelReward(body: BattlePassLevelId, appId: string, bpid: string, options?: any) {
-        return BattlePassesApiFp(this.configuration).claimBattlePassLevelReward(body, appId, bpid, options)(this.fetch, this.basePath);
+    public activateBattlePassLevel(appId: string, levelId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).activateBattlePassLevel(appId, levelId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Claim the battle pass level id
+     * @summary Claim the battle pass level reward. This will trigger a Webhook that you can use to unlock the reward on server side. If you don't have a server you can also unlock in the client application after receiving a positive response.
+     * @param {string} appId The app id
+     * @param {string} levelId The id of the battle pass level.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BattlePassesApi
+     */
+    public claimBattlePassLevelReward(appId: string, levelId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).claimBattlePassLevelReward(appId, levelId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get active battle passes for the app
+     * @summary Get battle passes
+     * @param {string} appId The app id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BattlePassesApi
+     */
+    public getActiveBattlePasses(appId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).getActiveBattlePasses(appId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get all battle pass levels for an app
+     * @summary Get battle pass levels for an app (from all battle passes)
+     * @param {string} appId The app id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BattlePassesApi
+     */
+    public getAllBattlePassLevels(appId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).getAllBattlePassLevels(appId, options)(this.fetch, this.basePath);
     }
 
     /**
      * Get battle pass for the product with id
-     * @summary Get battle passe by id
+     * @summary Get battle pass by id
      * @param {string} appId The app id
-     * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+     * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BattlePassesApi
      */
-    public getBattlePass(appId: string, bpid: string, options?: any) {
-        return BattlePassesApiFp(this.configuration).getBattlePass(appId, bpid, options)(this.fetch, this.basePath);
+    public getBattlePass(appId: string, battlePassId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).getBattlePass(appId, battlePassId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get battle pass levels for a battle pass
+     * @summary Get battle pass levels for a battle pass
+     * @param {string} appId The app id
+     * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BattlePassesApi
+     */
+    public getBattlePassLevels(appId: string, battlePassId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).getBattlePassLevels(appId, battlePassId, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -1482,17 +2622,29 @@ export class BattlePassesApi extends BaseAPI {
     }
 
     /**
-     * Unlock a battle pass level
-     * @summary Unlock the level of a battle pass
-     * @param {BattlePassLevelId} body Provide the battle pass level id in this payload
+     * Get unlocked battle passes for the user encoded in the access token
+     * @summary Get battle passes unlocked by the user
      * @param {string} appId The app id
-     * @param {string} bpid The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BattlePassesApi
      */
-    public unlockBattlePassLevel(body: BattlePassLevelId, appId: string, bpid: string, options?: any) {
-        return BattlePassesApiFp(this.configuration).unlockBattlePassLevel(body, appId, bpid, options)(this.fetch, this.basePath);
+    public getUnlockedBattlePasses(appId: string, options?: any) {
+        return BattlePassesApiFp(this.configuration).getUnlockedBattlePasses(appId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Unlock the battle pass for a user
+     * @summary Unlock the battle pass for the user specified in the access token
+     * @param {string} appId The app id
+     * @param {string} battlePassId The id of the battle pass. It’s the same as in battle_pass_id you received in earlier requests (i.e. getting all active battle passes for a product).
+     * @param {BattlePassUnlockPayload} [body] Provide purchase info for the battle pass
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BattlePassesApi
+     */
+    public unlockBattlePass(appId: string, battlePassId: string, body?: BattlePassUnlockPayload, options?: any) {
+        return BattlePassesApiFp(this.configuration).unlockBattlePass(appId, battlePassId, body, options)(this.fetch, this.basePath);
     }
 
 }
@@ -1506,22 +2658,22 @@ export const ChallengesApiFetchParamCreator = function (configuration?: Configur
          * Activate a personal challenge by product id and user challenge id
          * @summary Activate a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activatePersonalChallenge(appId: string, cid: string, options: any = {}): FetchArgs {
+        activatePersonalChallenge(appId: string, challengeId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
                 throw new RequiredError('appId','Required parameter appId was null or undefined when calling activatePersonalChallenge.');
             }
-            // verify required parameter 'cid' is not null or undefined
-            if (cid === null || cid === undefined) {
-                throw new RequiredError('cid','Required parameter cid was null or undefined when calling activatePersonalChallenge.');
+            // verify required parameter 'challengeId' is not null or undefined
+            if (challengeId === null || challengeId === undefined) {
+                throw new RequiredError('challengeId','Required parameter challengeId was null or undefined when calling activatePersonalChallenge.');
             }
-            const localVarPath = `/api/v1/challenges/personal/activate/{appId}/{cid}`
+            const localVarPath = `/api/v1/challenges/personal/activate/{appId}/{challengeId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"cid"}}`, encodeURIComponent(String(cid)));
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1552,22 +2704,22 @@ export const ChallengesApiFetchParamCreator = function (configuration?: Configur
          * Cancel an active personal challenge by product id and user challenge id
          * @summary Cancel an active personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelPersonalChallenge(appId: string, cid: string, options: any = {}): FetchArgs {
+        cancelPersonalChallenge(appId: string, challengeId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
                 throw new RequiredError('appId','Required parameter appId was null or undefined when calling cancelPersonalChallenge.');
             }
-            // verify required parameter 'cid' is not null or undefined
-            if (cid === null || cid === undefined) {
-                throw new RequiredError('cid','Required parameter cid was null or undefined when calling cancelPersonalChallenge.');
+            // verify required parameter 'challengeId' is not null or undefined
+            if (challengeId === null || challengeId === undefined) {
+                throw new RequiredError('challengeId','Required parameter challengeId was null or undefined when calling cancelPersonalChallenge.');
             }
-            const localVarPath = `/api/v1/challenges/personal/cancel/{appId}/{cid}`
+            const localVarPath = `/api/v1/challenges/personal/cancel/{appId}/{challengeId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"cid"}}`, encodeURIComponent(String(cid)));
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1598,22 +2750,22 @@ export const ChallengesApiFetchParamCreator = function (configuration?: Configur
          * Claim the reward of a finished personal challenge by product id and user challenge id
          * @summary Claim the reward of a finished personal challenge
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimPersonalChallengeReward(appId: string, cid: string, options: any = {}): FetchArgs {
+        claimPersonalChallengeReward(appId: string, challengeId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
                 throw new RequiredError('appId','Required parameter appId was null or undefined when calling claimPersonalChallengeReward.');
             }
-            // verify required parameter 'cid' is not null or undefined
-            if (cid === null || cid === undefined) {
-                throw new RequiredError('cid','Required parameter cid was null or undefined when calling claimPersonalChallengeReward.');
+            // verify required parameter 'challengeId' is not null or undefined
+            if (challengeId === null || challengeId === undefined) {
+                throw new RequiredError('challengeId','Required parameter challengeId was null or undefined when calling claimPersonalChallengeReward.');
             }
-            const localVarPath = `/api/v1/challenges/personal/claim/{appId}/{cid}`
+            const localVarPath = `/api/v1/challenges/personal/claim/{appId}/{challengeId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"cid"}}`, encodeURIComponent(String(cid)));
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1716,6 +2868,52 @@ export const ChallengesApiFetchParamCreator = function (configuration?: Configur
         },
         /**
          * Get personal challenges organized in categories
+         * @summary Get personal challenge by id
+         * @param {string} appId The app id
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonalChallengeById(appId: string, challengeId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'appId' is not null or undefined
+            if (appId === null || appId === undefined) {
+                throw new RequiredError('appId','Required parameter appId was null or undefined when calling getPersonalChallengeById.');
+            }
+            // verify required parameter 'challengeId' is not null or undefined
+            if (challengeId === null || challengeId === undefined) {
+                throw new RequiredError('challengeId','Required parameter challengeId was null or undefined when calling getPersonalChallengeById.');
+            }
+            const localVarPath = `/api/v1/challenges/personal/get/{appId}/{challengeId}`
+                .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+
+            // authentication oAuthNoScopes required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("oAuthNoScopes", [""])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get personal challenges organized in categories
          * @summary Get personal challenges
          * @param {string} appId The app id
          * @param {*} [options] Override http request option.
@@ -1758,22 +2956,22 @@ export const ChallengesApiFetchParamCreator = function (configuration?: Configur
          * Unlock a personal challenge by product id and challenge id
          * @summary Unlock a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockPersonalChallenge(appId: string, cid: string, options: any = {}): FetchArgs {
+        unlockPersonalChallenge(appId: string, challengeId: string, options: any = {}): FetchArgs {
             // verify required parameter 'appId' is not null or undefined
             if (appId === null || appId === undefined) {
                 throw new RequiredError('appId','Required parameter appId was null or undefined when calling unlockPersonalChallenge.');
             }
-            // verify required parameter 'cid' is not null or undefined
-            if (cid === null || cid === undefined) {
-                throw new RequiredError('cid','Required parameter cid was null or undefined when calling unlockPersonalChallenge.');
+            // verify required parameter 'challengeId' is not null or undefined
+            if (challengeId === null || challengeId === undefined) {
+                throw new RequiredError('challengeId','Required parameter challengeId was null or undefined when calling unlockPersonalChallenge.');
             }
-            const localVarPath = `/api/v1/challenges/personal/unlock/{appId}/{cid}`
+            const localVarPath = `/api/v1/challenges/personal/unlock/{appId}/{challengeId}`
                 .replace(`{${"appId"}}`, encodeURIComponent(String(appId)))
-                .replace(`{${"cid"}}`, encodeURIComponent(String(cid)));
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1813,12 +3011,12 @@ export const ChallengesApiFp = function(configuration?: Configuration) {
          * Activate a personal challenge by product id and user challenge id
          * @summary Activate a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activatePersonalChallenge(appId: string, cid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).activatePersonalChallenge(appId, cid, options);
+        activatePersonalChallenge(appId: string, challengeId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).activatePersonalChallenge(appId, challengeId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1833,12 +3031,12 @@ export const ChallengesApiFp = function(configuration?: Configuration) {
          * Cancel an active personal challenge by product id and user challenge id
          * @summary Cancel an active personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelPersonalChallenge(appId: string, cid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).cancelPersonalChallenge(appId, cid, options);
+        cancelPersonalChallenge(appId: string, challengeId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).cancelPersonalChallenge(appId, challengeId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1853,12 +3051,12 @@ export const ChallengesApiFp = function(configuration?: Configuration) {
          * Claim the reward of a finished personal challenge by product id and user challenge id
          * @summary Claim the reward of a finished personal challenge
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimPersonalChallengeReward(appId: string, cid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).claimPersonalChallengeReward(appId, cid, options);
+        claimPersonalChallengeReward(appId: string, challengeId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).claimPersonalChallengeReward(appId, challengeId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1908,6 +3106,26 @@ export const ChallengesApiFp = function(configuration?: Configuration) {
         },
         /**
          * Get personal challenges organized in categories
+         * @summary Get personal challenge by id
+         * @param {string} appId The app id
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonalChallengeById(appId: string, challengeId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Challenge> {
+            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).getPersonalChallengeById(appId, challengeId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Get personal challenges organized in categories
          * @summary Get personal challenges
          * @param {string} appId The app id
          * @param {*} [options] Override http request option.
@@ -1929,12 +3147,12 @@ export const ChallengesApiFp = function(configuration?: Configuration) {
          * Unlock a personal challenge by product id and challenge id
          * @summary Unlock a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockPersonalChallenge(appId: string, cid: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
-            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).unlockPersonalChallenge(appId, cid, options);
+        unlockPersonalChallenge(appId: string, challengeId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ActionResponse> {
+            const localVarFetchArgs = ChallengesApiFetchParamCreator(configuration).unlockPersonalChallenge(appId, challengeId, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1958,34 +3176,34 @@ export const ChallengesApiFactory = function (configuration?: Configuration, fet
          * Activate a personal challenge by product id and user challenge id
          * @summary Activate a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activatePersonalChallenge(appId: string, cid: string, options?: any) {
-            return ChallengesApiFp(configuration).activatePersonalChallenge(appId, cid, options)(fetch, basePath);
+        activatePersonalChallenge(appId: string, challengeId: string, options?: any) {
+            return ChallengesApiFp(configuration).activatePersonalChallenge(appId, challengeId, options)(fetch, basePath);
         },
         /**
          * Cancel an active personal challenge by product id and user challenge id
          * @summary Cancel an active personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelPersonalChallenge(appId: string, cid: string, options?: any) {
-            return ChallengesApiFp(configuration).cancelPersonalChallenge(appId, cid, options)(fetch, basePath);
+        cancelPersonalChallenge(appId: string, challengeId: string, options?: any) {
+            return ChallengesApiFp(configuration).cancelPersonalChallenge(appId, challengeId, options)(fetch, basePath);
         },
         /**
          * Claim the reward of a finished personal challenge by product id and user challenge id
          * @summary Claim the reward of a finished personal challenge
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        claimPersonalChallengeReward(appId: string, cid: string, options?: any) {
-            return ChallengesApiFp(configuration).claimPersonalChallengeReward(appId, cid, options)(fetch, basePath);
+        claimPersonalChallengeReward(appId: string, challengeId: string, options?: any) {
+            return ChallengesApiFp(configuration).claimPersonalChallengeReward(appId, challengeId, options)(fetch, basePath);
         },
         /**
          * Get an access token for the Websockets server notifying of updates in real time
@@ -2008,6 +3226,17 @@ export const ChallengesApiFactory = function (configuration?: Configuration, fet
         },
         /**
          * Get personal challenges organized in categories
+         * @summary Get personal challenge by id
+         * @param {string} appId The app id
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonalChallengeById(appId: string, challengeId: string, options?: any) {
+            return ChallengesApiFp(configuration).getPersonalChallengeById(appId, challengeId, options)(fetch, basePath);
+        },
+        /**
+         * Get personal challenges organized in categories
          * @summary Get personal challenges
          * @param {string} appId The app id
          * @param {*} [options] Override http request option.
@@ -2020,12 +3249,12 @@ export const ChallengesApiFactory = function (configuration?: Configuration, fet
          * Unlock a personal challenge by product id and challenge id
          * @summary Unlock a personal challenges
          * @param {string} appId The app id
-         * @param {string} cid The challenge id (see challenge_id of Challenge object)
+         * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unlockPersonalChallenge(appId: string, cid: string, options?: any) {
-            return ChallengesApiFp(configuration).unlockPersonalChallenge(appId, cid, options)(fetch, basePath);
+        unlockPersonalChallenge(appId: string, challengeId: string, options?: any) {
+            return ChallengesApiFp(configuration).unlockPersonalChallenge(appId, challengeId, options)(fetch, basePath);
         },
     };
 };
@@ -2041,39 +3270,39 @@ export class ChallengesApi extends BaseAPI {
      * Activate a personal challenge by product id and user challenge id
      * @summary Activate a personal challenges
      * @param {string} appId The app id
-     * @param {string} cid The challenge id (see challenge_id of Challenge object)
+     * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChallengesApi
      */
-    public activatePersonalChallenge(appId: string, cid: string, options?: any) {
-        return ChallengesApiFp(this.configuration).activatePersonalChallenge(appId, cid, options)(this.fetch, this.basePath);
+    public activatePersonalChallenge(appId: string, challengeId: string, options?: any) {
+        return ChallengesApiFp(this.configuration).activatePersonalChallenge(appId, challengeId, options)(this.fetch, this.basePath);
     }
 
     /**
      * Cancel an active personal challenge by product id and user challenge id
      * @summary Cancel an active personal challenges
      * @param {string} appId The app id
-     * @param {string} cid The challenge id (see challenge_id of Challenge object)
+     * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChallengesApi
      */
-    public cancelPersonalChallenge(appId: string, cid: string, options?: any) {
-        return ChallengesApiFp(this.configuration).cancelPersonalChallenge(appId, cid, options)(this.fetch, this.basePath);
+    public cancelPersonalChallenge(appId: string, challengeId: string, options?: any) {
+        return ChallengesApiFp(this.configuration).cancelPersonalChallenge(appId, challengeId, options)(this.fetch, this.basePath);
     }
 
     /**
      * Claim the reward of a finished personal challenge by product id and user challenge id
      * @summary Claim the reward of a finished personal challenge
      * @param {string} appId The app id
-     * @param {string} cid The challenge id (see challenge_id of Challenge object)
+     * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChallengesApi
      */
-    public claimPersonalChallengeReward(appId: string, cid: string, options?: any) {
-        return ChallengesApiFp(this.configuration).claimPersonalChallengeReward(appId, cid, options)(this.fetch, this.basePath);
+    public claimPersonalChallengeReward(appId: string, challengeId: string, options?: any) {
+        return ChallengesApiFp(this.configuration).claimPersonalChallengeReward(appId, challengeId, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -2101,6 +3330,19 @@ export class ChallengesApi extends BaseAPI {
 
     /**
      * Get personal challenges organized in categories
+     * @summary Get personal challenge by id
+     * @param {string} appId The app id
+     * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChallengesApi
+     */
+    public getPersonalChallengeById(appId: string, challengeId: string, options?: any) {
+        return ChallengesApiFp(this.configuration).getPersonalChallengeById(appId, challengeId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Get personal challenges organized in categories
      * @summary Get personal challenges
      * @param {string} appId The app id
      * @param {*} [options] Override http request option.
@@ -2115,13 +3357,13 @@ export class ChallengesApi extends BaseAPI {
      * Unlock a personal challenge by product id and challenge id
      * @summary Unlock a personal challenges
      * @param {string} appId The app id
-     * @param {string} cid The challenge id (see challenge_id of Challenge object)
+     * @param {string} challengeId The challenge id (see challenge_id of Challenge object)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChallengesApi
      */
-    public unlockPersonalChallenge(appId: string, cid: string, options?: any) {
-        return ChallengesApiFp(this.configuration).unlockPersonalChallenge(appId, cid, options)(this.fetch, this.basePath);
+    public unlockPersonalChallenge(appId: string, challengeId: string, options?: any) {
+        return ChallengesApiFp(this.configuration).unlockPersonalChallenge(appId, challengeId, options)(this.fetch, this.basePath);
     }
 
 }
@@ -2131,6 +3373,29 @@ export class ChallengesApi extends BaseAPI {
  */
 export const EventsApiFetchParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Get all available events and required and optional properties
+         * @summary Get all available events and required and optional properties
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAvailableEvents(options: any = {}): FetchArgs {
+            const localVarPath = `/api/v1/public/documentation`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Post an event to the SCILL backend
          * @summary Post an event
@@ -2148,6 +3413,14 @@ export const EventsApiFetchParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyType required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("auth")
+					: configuration.apiKey;
+                localVarQueryParameter["auth"] = localVarApiKeyValue;
+            }
 
             // authentication BearerAuth required
 
@@ -2184,6 +3457,24 @@ export const EventsApiFetchParamCreator = function (configuration?: Configuratio
 export const EventsApiFp = function(configuration?: Configuration) {
     return {
         /**
+         * Get all available events and required and optional properties
+         * @summary Get all available events and required and optional properties
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAvailableEvents(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<EventDescription>> {
+            const localVarFetchArgs = EventsApiFetchParamCreator(configuration).getAvailableEvents(options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * Post an event to the SCILL backend
          * @summary Post an event
          * @param {EventPayload} body Event payload
@@ -2212,6 +3503,15 @@ export const EventsApiFp = function(configuration?: Configuration) {
 export const EventsApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
+         * Get all available events and required and optional properties
+         * @summary Get all available events and required and optional properties
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAvailableEvents(options?: any) {
+            return EventsApiFp(configuration).getAvailableEvents(options)(fetch, basePath);
+        },
+        /**
          * Post an event to the SCILL backend
          * @summary Post an event
          * @param {EventPayload} body Event payload
@@ -2231,6 +3531,17 @@ export const EventsApiFactory = function (configuration?: Configuration, fetch?:
  * @extends {BaseAPI}
  */
 export class EventsApi extends BaseAPI {
+    /**
+     * Get all available events and required and optional properties
+     * @summary Get all available events and required and optional properties
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public getAvailableEvents(options?: any) {
+        return EventsApiFp(this.configuration).getAvailableEvents(options)(this.fetch, this.basePath);
+    }
+
     /**
      * Post an event to the SCILL backend
      * @summary Post an event

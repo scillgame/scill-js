@@ -8,26 +8,16 @@
         const appId = "597737952688570369";
         let challengesApi = null;
         const userId = '1234';
+        let environment = '';
         let webSocket = null;
 
-        // Setup the websocket to receive notifications if Webhook is called with challenge updates
-        setupWebsocket();
-
-        function setupWebsocket() {
-            webSocket = new WebSocket(`ws${window.location.protocol === 'https:' ? 's' : ''}://${window.location.host}/scill/ws/challenges/${userId}`);
-            webSocket.onmessage = function (event) {
-                console.log('Received Webhook', event.data);
-                updateChallenges();
-            }
-
-            webSocket.onclose = function(event) {
-                console.log("Websocket closed, reconnecting");
-                setupWebsocket();
-            }
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('environment')) {
+            environment = urlParams.get('environment');
         }
 
         function sendEvent() {
-            window.fetch(`/scill/send-event/kill-enemy`)
+            window.fetch(`/scill/send-event/kill-enemy?environment=${environment}`)
                 .then(response => response.json())
                 .then(response => {
                     console.log("Sending event: ", response);
@@ -35,7 +25,15 @@
         }
 
         function sendUserInviteEvent() {
-            window.fetch(`/scill/send-event/user-invite`)
+            window.fetch(`/scill/send-event/user-invite?environment=${environment}`)
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Sending event: ", response);
+                });
+        }
+
+        function sendDealDamageEvent() {
+            window.fetch(`/scill/send-event/deal-damage?environment=${environment}`)
                 .then(response => response.json())
                 .then(response => {
                     console.log("Sending event: ", response);
@@ -43,6 +41,10 @@
         }
 
         function updateChallenges() {
+            if (!challengesApi) {
+                return;
+            }
+
             challengesApi.getPersonalChallenges(appId).then(categories => {
                 console.log("Loaded challenges", categories);
 
@@ -94,7 +96,7 @@
 
         // Load custom backend provided in index.js NodeJS server
         function generateAccessToken() {
-            window.fetch(`/scill/generate-access-token`)
+            window.fetch(`/scill/generate-access-token?environment=${environment}`)
                 .then(response => response.json())
                 .then(response => {
                     if (response && response.token) {
@@ -107,8 +109,13 @@
                     accessToken = token;
 
                     // Setup the challenges API with the access token and load the first batch of challenges
-                    challengesApi = SCILL.getChallengesApi(accessToken);
+                    challengesApi = SCILL.getChallengesApi(accessToken, environment);
                     updateChallenges();
+
+                // Setup the websocket to receive notifications if Webhook is called with challenge updates
+                    SCILL.startMonitorChallengeUpdates(accessToken, payload => {
+                        updateChallenges();
+                    });
                 });
         }
 
@@ -125,6 +132,7 @@
 
         function activateChallenge(challengeId) {
             challengesApi.activatePersonalChallenge(appId, challengeId).then(result => {
+                console.log(result);
                 if (result) {
                     alert("Challenge activated");
                     updateChallenges();
@@ -163,7 +171,7 @@
 <body>
 <h1>Simple SCILL application</h1>
 <h3>Send events</h3>
-<button onclick="sendEvent()">kill-enemy</button> <button onclick="sendUserInviteEvent()">user-invite</button>
+<button onclick="sendEvent()">kill-enemy</button> <button onclick="sendUserInviteEvent()">user-invite</button> <button onclick="sendDealDamageEvent()">deal-damage</button>
 <p>Please note: Sending events should be done in the backend if possible.</p>
 <h3>Your challenges</h3>
 <ul id="challenges" class="challenges"></ul>

@@ -5,7 +5,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const scill = require('@scillgame/scill-js');
 const path = require('path');
-const clients = {};
+const clients = {
+    production: {},
+    staging: {},
+    development: {}
+};
 
 const app = express();
 const port = 80;
@@ -58,8 +62,37 @@ app.get('/scill/send-event/user-invite', (req, res) => {
             amount: 1
         }
     }).then(result => {
-        console.log("Sending event: ", result);
-        return res.set(result);
+        console.log("Sending event user-invite: ", environment, result);
+        return res.send(result);
+    }).catch(error => {
+        console.warn("Failed to send event", error);
+        return res.send({
+            error: error.error
+        });
+    });
+});
+
+app.get('/scill/send-event/deal-damage', (req, res) => {
+    // In this example we use a session sent to this endpoint from the client to extract a user id from the session
+    // How you implement that is up to you and depends on your user system
+    const session = req.query.sessionid;
+    const environment = req.query.environment;
+    const userId = '1234';
+
+    let eventsApi = scill.getEventsApi(apiKey, environment);
+    eventsApi.sendEvent({
+        event_name: "deal-damage",
+        event_type: "single",
+        user_id: "1234",
+        session_id: "1234",
+        meta_data: {
+            damage_amount: 10,
+            player_character: 'Phillip',
+            required_time: 500
+        }
+    }).then(result => {
+        console.log("Sending event deal-damage: ", environment, result);
+        return res.send(result);
     }).catch(error => {
         console.warn("Failed to send event", error);
         return res.send({
@@ -91,8 +124,8 @@ app.get('/scill/send-event/kill-enemy', (req, res) => {
             realm: "Europe"
         }
     }).then(result => {
-        console.log("Sending event: ", result);
-        return res.set(result);
+        console.log("Sending event kill-enemy: ", environment, result);
+        return res.send(result);
     }).catch(error => {
         console.warn("Failed to send event", error);
         return res.send({
@@ -103,35 +136,6 @@ app.get('/scill/send-event/kill-enemy', (req, res) => {
 
 app.get('/',function(req,res) {
     res.sendFile(path.join(__dirname+'/index.html'));
-});
-
-app.post('/scill/wh/challenges', (req, res) => {
-    console.log("Webhook called", req.query, req.body);
-    const data = req.body;
-    if (data) {
-        const userId = data.new_challenge.user_id;
-        if (clients[userId]) {
-            clients[userId].send(JSON.stringify(data));
-        }
-    }
-
-    res.send({message: 'OK'});
-});
-
-app.ws('/scill/ws/challenges/:userId', function(ws, req) {
-
-    // Store Websocket connection for later use
-    console.log("CLIENT CONNECTED", req.params['userId']);
-    clients[req.params['userId']] = ws;
-
-    ws.on('message', function(msg) {
-        ws.send(msg);
-    });
-
-    ws.on('close', function() {
-        console.log("CLIENT DISCONNECTED", req.params['userId']);
-        delete clients[req.params['userId']];
-    });
 });
 
 app.listen(port, () => {
