@@ -65,7 +65,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @scillgame/scill-typescript@1.0.0 --save
+npm install @scillgame/scill-js@latest --save
 ```
 
 _unPublished (not recommended):_
