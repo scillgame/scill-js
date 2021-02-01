@@ -5,3 +5,4 @@ typings
 dist
 public/scill.js
 .firebase
+.DS_Store

@@ -25,6 +25,17 @@ describe("AuthApi", () => {
     const body: api.ForeignUserIdentifier = undefined
     return expect(instance.generateAccessToken(body, {})).resolves.toBe(null)
   })
+  test("getUserBattlePassNotificationTopic", () => {
+    const battle_pass_id: string = "battle_pass_id_example"
+    return expect(instance.getUserBattlePassNotificationTopic(battle_pass_id, {})).resolves.toBe(null)
+  })
+  test("getUserChallengeNotificationTopic", () => {
+    const challenge_id: string = "challenge_id_example"
+    return expect(instance.getUserChallengeNotificationTopic(challenge_id, {})).resolves.toBe(null)
+  })
+  test("getUserChallengesNotificationTopic", () => {
+    return expect(instance.getUserChallengesNotificationTopic({})).resolves.toBe(null)
+  })
 })
 
 describe("BattlePassesApi", () => {
@@ -33,26 +44,47 @@ describe("BattlePassesApi", () => {
     instance = new api.BattlePassesApi(config)
   });
 
-  test("claimBattlePassLevelReward", () => {
-    const body: api.BattlePassLevelId = undefined
+  test("activateBattlePassLevel", () => {
     const appId: string = "appId_example"
-    const bpid: string = "bpid_example"
-    return expect(instance.claimBattlePassLevelReward(body, appId, bpid, {})).resolves.toBe(null)
+    const levelId: string = "levelId_example"
+    return expect(instance.activateBattlePassLevel(appId, levelId, {})).resolves.toBe(null)
+  })
+  test("claimBattlePassLevelReward", () => {
+    const appId: string = "appId_example"
+    const levelId: string = "levelId_example"
+    return expect(instance.claimBattlePassLevelReward(appId, levelId, {})).resolves.toBe(null)
+  })
+  test("getActiveBattlePasses", () => {
+    const appId: string = "appId_example"
+    return expect(instance.getActiveBattlePasses(appId, {})).resolves.toBe(null)
+  })
+  test("getAllBattlePassLevels", () => {
+    const appId: string = "appId_example"
+    return expect(instance.getAllBattlePassLevels(appId, {})).resolves.toBe(null)
   })
   test("getBattlePass", () => {
     const appId: string = "appId_example"
-    const bpid: string = "bpid_example"
-    return expect(instance.getBattlePass(appId, bpid, {})).resolves.toBe(null)
+    const battlePassId: string = "battlePassId_example"
+    return expect(instance.getBattlePass(appId, battlePassId, {})).resolves.toBe(null)
+  })
+  test("getBattlePassLevels", () => {
+    const appId: string = "appId_example"
+    const battlePassId: string = "battlePassId_example"
+    return expect(instance.getBattlePassLevels(appId, battlePassId, {})).resolves.toBe(null)
   })
   test("getBattlePasses", () => {
     const appId: string = "appId_example"
     return expect(instance.getBattlePasses(appId, {})).resolves.toBe(null)
   })
-  test("unlockBattlePassLevel", () => {
-    const body: api.BattlePassLevelId = undefined
+  test("getUnlockedBattlePasses", () => {
     const appId: string = "appId_example"
-    const bpid: string = "bpid_example"
-    return expect(instance.unlockBattlePassLevel(body, appId, bpid, {})).resolves.toBe(null)
+    return expect(instance.getUnlockedBattlePasses(appId, {})).resolves.toBe(null)
+  })
+  test("unlockBattlePass", () => {
+    const appId: string = "appId_example"
+    const battlePassId: string = "battlePassId_example"
+    const body: api.BattlePassUnlockPayload = undefined
+    return expect(instance.unlockBattlePass(appId, battlePassId, body, {})).resolves.toBe(null)
   })
 })
 
@@ -64,18 +96,18 @@ describe("ChallengesApi", () => {
 
   test("activatePersonalChallenge", () => {
     const appId: string = "appId_example"
-    const cid: string = "cid_example"
-    return expect(instance.activatePersonalChallenge(appId, cid, {})).resolves.toBe(null)
+    const challengeId: string = "challengeId_example"
+    return expect(instance.activatePersonalChallenge(appId, challengeId, {})).resolves.toBe(null)
   })
   test("cancelPersonalChallenge", () => {
     const appId: string = "appId_example"
-    const cid: string = "cid_example"
-    return expect(instance.cancelPersonalChallenge(appId, cid, {})).resolves.toBe(null)
+    const challengeId: string = "challengeId_example"
+    return expect(instance.cancelPersonalChallenge(appId, challengeId, {})).resolves.toBe(null)
   })
   test("claimPersonalChallengeReward", () => {
     const appId: string = "appId_example"
-    const cid: string = "cid_example"
-    return expect(instance.claimPersonalChallengeReward(appId, cid, {})).resolves.toBe(null)
+    const challengeId: string = "challengeId_example"
+    return expect(instance.claimPersonalChallengeReward(appId, challengeId, {})).resolves.toBe(null)
   })
   test("generateWebsocketAccessToken", () => {
     return expect(instance.generateWebsocketAccessToken({})).resolves.toBe(null)
@@ -84,14 +116,19 @@ describe("ChallengesApi", () => {
     const appId: string = "appId_example"
     return expect(instance.getActivePersonalChallenges(appId, {})).resolves.toBe(null)
   })
+  test("getPersonalChallengeById", () => {
+    const appId: string = "appId_example"
+    const challengeId: string = "challengeId_example"
+    return expect(instance.getPersonalChallengeById(appId, challengeId, {})).resolves.toBe(null)
+  })
   test("getPersonalChallenges", () => {
     const appId: string = "appId_example"
     return expect(instance.getPersonalChallenges(appId, {})).resolves.toBe(null)
   })
   test("unlockPersonalChallenge", () => {
     const appId: string = "appId_example"
-    const cid: string = "cid_example"
-    return expect(instance.unlockPersonalChallenge(appId, cid, {})).resolves.toBe(null)
+    const challengeId: string = "challengeId_example"
+    return expect(instance.unlockPersonalChallenge(appId, challengeId, {})).resolves.toBe(null)
   })
 })
 
@@ -101,6 +138,9 @@ describe("EventsApi", () => {
     instance = new api.EventsApi(config)
   });
 
+  test("getAvailableEvents", () => {
+    return expect(instance.getAvailableEvents({})).resolves.toBe(null)
+  })
   test("sendEvent", () => {
     const body: api.EventPayload = undefined
     return expect(instance.sendEvent(body, {})).resolves.toBe(null)

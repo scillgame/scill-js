@@ -1,5 +1,6 @@
 import {ChallengeWebhookPayload} from "./api";
 import {getAuthApi, SCILLEnvironment} from "./scillclient";
+
 import * as mqtt from "mqtt";
 
 export class ChallengeUpdateMonitor {

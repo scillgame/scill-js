@@ -1,6 +1,6 @@
 {
   "name": "@scillgame/scill-js",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "SCILL Gamification as a Service SDK for NodeJS and JavaScript (browsers).",
   "author": "4Players Development Team",
   "keywords": [
@@ -11,15 +11,19 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
+  "browser": {
+    "./dist/index.js": "./public/scill.js"
+  },
   "typings": "./dist/index.d.ts",
   "scripts": {
+    "prepare": "npm run build && npm run build-client",
+    "build-client": "browserify dist/scillclient.js -o public/scill.js --standalone SCILL",
     "build": "tsc --outDir dist/",
-    "test": "jest",
-    "prepublishOnly": "npm run build",
-    "build-client": "browserify dist/scillclient.js -o public/scill.js --standalone SCILL"
+    "test": "jest"
   },
   "files": [
     "dist/**/*",
+    "public/**/*",
     "custom.d.ts"
   ],
   "dependencies": {
@@ -27,13 +31,13 @@
     "portable-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.0",
-    "browserify": "^16.5.2",
-    "jest": "^25.4.0",
-    "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3",
-    "buffer": "^6.0.3"
+    "@types/jest": "^26.0.20",
+    "@types/node": "^12.12.6",
+    "browserify": "^17.0.0",
+    "buffer": "^6.0.3",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "typescript": "^3.8.3"
   },
   "jest": {
     "transform": {

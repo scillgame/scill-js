@@ -9,11 +9,18 @@
     "lib": [
       "es6",
       "dom"
-    ]
+    ],
+    "moduleResolution": "node"
   },
   "exclude": [
     "dist",
     "node_modules",
     "**/*.spec.ts"
+  ],
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "types": [
+    "node"
   ]
 }

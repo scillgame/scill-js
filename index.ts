@@ -14,6 +14,7 @@
 export * from "./api";
 export * from "./configuration";
 
+export * from "./helper";
 export * from "./scillclient";
 export * from "./challenge-update-monitor";
 export * from "./user-battle-pass-update-monitor";

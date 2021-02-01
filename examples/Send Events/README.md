@@ -4,7 +4,6 @@ This is a basic example showing sending events using NodeJS.
 
 First install dependencies in the root folder:
 ```
-cd examples/Send\ Events
 npm install
 ```
 
@@ -17,6 +16,7 @@ This creates a `dist` folder with the compiled JS files.
 
 After that, cd into the example folder and run the sample with Node
 ```
+cd examples/Send\ Events
 node index.js
 ```
 
