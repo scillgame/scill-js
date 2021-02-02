@@ -8,11 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.6] - 2021-02-02
 ### Fixed
-- Fixed calculation of minutes in `tileLeft` helper function.
+- Fixed calculation of minutes in `timeLeft` helper function.
 
 ## [1.2.5] - 2021-02-01
 ### Added
-- Added number of days to `tileLeft` helper function.
+- Added number of days to `timeLeft` helper function.
 
 ## [1.2.4] - 2021-01-23
 ### Added
