@@ -18,16 +18,14 @@ export function timeLeft(challenge: Challenge) {
   activateTill.setMinutes(activateTill.getMinutes() + challenge.challenge_duration_time);
 
   const diffMs = (activateTill.getTime() - new Date().getTime()); // milliseconds between now & the challenge ends
-  const diffDays = Math.floor(diffMs / 1000 / 60 / 60 / 24); // days
-  const diffHours = Math.floor((diffMs % 86400000) / 3600000); // hours
-  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-  const diffSeconds = Math.round((((diffMs % 86400000) % 3600000) / 1000) % 60); // seconds
-
-  if (diffDays > 0) {
-    return `${diffDays}D ${pad(diffHours, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`
-  }
-  
-  return `${pad(diffHours, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`;
+  const diffDys = Math.floor(diffMs / 1000 / 60 / 60 / 24),
+        diffHrs = Math.floor((diffMs / 1000 / 60 / 60) % 24),
+        diffMins = Math.floor((diffMs / 1000 / 60) % 60),
+        diffSeconds = Math.floor((diffMs / 1000) % 60);
+      
+  return diffDys > 0
+          ? `${diffDys}d ${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`
+          : `${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`;
 }
 
 /**
