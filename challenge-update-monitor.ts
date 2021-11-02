@@ -14,7 +14,7 @@ export class ChallengeUpdateMonitor {
     authApi.getUserChallengesNotificationTopic().then(notificationTopic => {
       console.log("Received notification topic", notificationTopic);
 
-      const challengesClient = mqtt.connect('wss://mqtt.scillgame.com:8083/mqtt');
+      const challengesClient = mqtt.connect('wss://mqtt.scillgame.com/mqtt');
       this.challengeClient = challengesClient;
 
       challengesClient.on('connect', function () {

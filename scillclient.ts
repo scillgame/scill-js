@@ -1,4 +1,4 @@
-import {AuthApi, EventsApi, ChallengesApi, BattlePassesApi} from "./api";
+import {AuthApi, EventsApi, ChallengesApi, BattlePassesApi, LeaderboardsApi, LeaderboardsV2Api} from "./api";
 import {Configuration} from "./configuration";
 
 export * from "./helper";
@@ -83,4 +83,32 @@ export function getBattlePassApi(accessToken: string, environment?: SCILLEnviron
         basePath: getBaseUrl("es", environment)
     });
     return new BattlePassesApi(configuration);
+}
+
+/**
+ * Get an instance of the LeaderboardsApi class, correctly setup for production environments. Use this handle leaderboards
+ * @summary Get instance of LeaderboardsApi
+ * @param {string} accessToken The access token created for the current user using the AuthApi (see generateAccessToken)
+ * @returns {LeaderboardsApi}
+ */
+export function getLeaderboardsApi(accessToken: string, environment?: SCILLEnvironment) {
+    const configuration = new Configuration({
+        accessToken: accessToken,
+        basePath: getBaseUrl("ls", environment)
+    });
+    return new LeaderboardsApi(configuration);
+}
+
+/**
+ * Get an instance of the LeaderboardsV2Api class, correctly setup for production environments. Use this handle leaderboards
+ * @summary Get instance of LeaderboardsV2Api
+ * @param {string} accessToken The access token created for the current user using the AuthApi (see generateAccessToken)
+ * @returns {LeaderboardsV2Api}
+ */
+ export function getLeaderboardsV2Api(accessToken: string, environment?: SCILLEnvironment) {
+    const configuration = new Configuration({
+        accessToken: accessToken,
+        basePath: getBaseUrl("ls", environment)
+    });
+    return new LeaderboardsV2Api(configuration);
 }

@@ -2,6 +2,10 @@ import { BattlePassChallengeChangedPayload, Challenge, ChallengeWebhookPayload }
 import { ChallengeUpdateMonitor } from "./challenge-update-monitor";
 import { SCILLEnvironment } from "./scillclient";
 import { UserBattlePassUpdateMonitor } from "./user-battle-pass-update-monitor";
+import {formatDuration} from "date-fns";
+import {de, enUS} from 'date-fns/locale';
+import {LeaderboardUpdateMonitor} from "./leaderboard-update-monitor";
+import {LeaderboardUpdateMonitorV2} from "./leaderboard-update-monitor-V2";
 
 function pad(num: number, size: number): string {
   let number = num.toString();
@@ -9,11 +13,11 @@ function pad(num: number, size: number): string {
   return number;
 }
 
-export function timeLeft(challenge: Challenge) {
+export function timeLeft(challenge: Challenge, displayShortTimeleft: boolean = false, lang ='en') {
   if (challenge.type !== "in-progress") {
       return null;
   }
-
+  
   const activateTill = new Date(challenge.user_challenge_activated_at);
   activateTill.setMinutes(activateTill.getMinutes() + challenge.challenge_duration_time);
 
@@ -22,10 +26,19 @@ export function timeLeft(challenge: Challenge) {
         diffHrs = Math.floor((diffMs / 1000 / 60 / 60) % 24),
         diffMins = Math.floor((diffMs / 1000 / 60) % 60),
         diffSeconds = Math.floor((diffMs / 1000) % 60);
-      
-  return diffDys > 0
-          ? `${diffDys}d ${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`
-          : `${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`;
+        
+        const daysShortcut = lang === 'de' ? 'T' : 'd';
+        const displayTime = displayShortTimeleft 
+                            ? diffDys > 0 
+                              ? `${diffDys}${daysShortcut} ${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`   // display with days included
+                              : `${pad(diffHrs, 2)}:${pad(diffMins, 2)}:${pad(diffSeconds, 2)}`
+                            : formatDuration({
+                                days: diffDys,
+                                hours: diffHrs,
+                                minutes: diffMins,
+                                seconds: diffSeconds}, {locale: lang === 'de' ? de : enUS });
+
+                                return displayTime;
 }
 
 /**
@@ -53,4 +66,21 @@ export function startMonitorChallengeUpdates(accessToken: string, handler: (payl
  */
 export function startMonitorBattlePassUpdates(accessToken: string, battlePassId: string, handler: (payload: BattlePassChallengeChangedPayload) => void, environment?: SCILLEnvironment) {
   return new UserBattlePassUpdateMonitor(accessToken, battlePassId, handler, environment);
+}
+
+/**
+ * Use this function to start listening on updates of a leaderboard. The function expects a callback function
+ * handler that will be called whenever the leaderboards rankings change.
+ *
+ * @param accessToken You need to provide an access token that you previously generated with the EventsApi.
+ * @param leaderboardId The id of the leaderboard that you want to listen for changes.
+ * @param handler The callback function that is called whenever something changes in the backend for the leaderboard.
+ * @param environment The optional SCILL enviromnent identifier.
+ */
+export function startMonitorLeaderboardUpdates(accessToken: string, leaderboardId: string, handler: (payload: BattlePassChallengeChangedPayload) => void, environment?: SCILLEnvironment) {
+    return new LeaderboardUpdateMonitor(accessToken, leaderboardId, handler, environment);
+}
+
+export function startMonitorLeaderboardUpdatesV2(accessToken: string, leaderboardId: string, handler: (payload: BattlePassChallengeChangedPayload) => void, environment?: SCILLEnvironment) {
+  return new LeaderboardUpdateMonitorV2(accessToken, leaderboardId, handler, environment);
 }

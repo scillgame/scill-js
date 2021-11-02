@@ -1,8 +1,6 @@
-
-import {BattlePassChallengeChangedPayload} from "./api";
-import {getAuthApi, SCILLEnvironment} from "./scillclient";
-
 import * as mqtt from "mqtt";
+import {BattlePassChallengeChangedPayload, ChallengeWebhookPayload} from "./api";
+import {getAuthApi, SCILLEnvironment} from "./scillclient";
 
 export class UserBattlePassUpdateMonitor {
   mqttClient: mqtt.MqttClient;
@@ -18,10 +16,10 @@ export class UserBattlePassUpdateMonitor {
     authApi.getUserBattlePassNotificationTopic(battlePassId).then(notificationTopic => {
       console.log("Received notification topic", notificationTopic);
 
-      const client = mqtt.connect("wss://mqtt.scillgame.com:8083/mqtt");
+      const client = mqtt.connect('wss://mqtt.scillgame.com/mqtt');
       this.mqttClient = client;
 
-      client.on("connect", function () {
+      client.on('connect', function () {
         client.subscribe(notificationTopic.topic, function (err) {
           if (err) {
             console.warn("Subscribing to MQTT failed");
@@ -29,7 +27,7 @@ export class UserBattlePassUpdateMonitor {
         })
       })
 
-      client.on("message", function (topic, message) {
+      client.on('message', function (topic, message) {
         if (message && message.length > 0) {
           try {
             var payload = JSON.parse(message.toString("utf8"));
